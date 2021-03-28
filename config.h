@@ -90,13 +90,13 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_j, movestack, {.i = +1}},
     {MODKEY | ShiftMask, XK_k, movestack, {.i = -1}},
 
-    {MODKEY, XK_x, zoom, {0}},
+    {MODKEY, XK_o, zoom, {0}},
     {MODKEY, XK_minus, view, {0}},
     {MODKEY, XK_c, killclient, {0}},
 
-    {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
+    // {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
     // {MODKEY | ShiftMask, XK_w, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XK_m, setlayout, {.v = &layouts[1]}},
+    // {MODKEY, XK_m, setlayout, {.v = &layouts[1]}},
 
     {MODKEY, XK_semicolon, cyclelayout, {.i = -1}},
     {MODKEY | ShiftMask, XK_semicolon, cyclelayout, {.i = +1}},
@@ -115,7 +115,7 @@ static Key keys[] = {
 
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-            TAGKEYS(XK_9, 8) TAGKEYS(XK_o, 9){MODKEY | ShiftMask, XK_r, quit, {0}},
+            TAGKEYS(XK_9, 8) TAGKEYS(XK_u, 9){MODKEY | ShiftMask, XK_r, quit, {0}},
 };
 
 /* button definitions */
