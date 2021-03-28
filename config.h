@@ -22,12 +22,13 @@ static const char col_gray3[] = "#44475a";
 static const char col_pink[] = "#ff79c6";
 static const char *colors[][3] = {
     /*               fg         bg         border   */
-    [SchemeNorm] = {col_gray1, col_gray2, col_gray3},
+    [SchemeNorm] = {col_gray1, col_gray2, col_gray2},
     [SchemeSel] = {col_gray1, col_gray3, col_pink},
 };
 
 /* tagging */
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
 static const Rule rules[] = {
     /* xprop(1):
      *	WM_CLASS(STRING) = instance, class

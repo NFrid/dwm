@@ -1,5 +1,4 @@
-diff --git a/dwm.c b/dwm.c
-index 58233db..0b109c9 100644
+diff --git a/dwm.c b/dwm.c index 58233db..0b109c9 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -190,7 +190,7 @@ static void detachstack(Client *c);
