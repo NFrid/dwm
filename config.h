@@ -64,7 +64,7 @@ static const Layout layouts[] = {
   {MODKEY, KEY, view, {.ui = 1 << TAG}},                                       \
       {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
       {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
-      {MODKEY | Mod1Mask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
@@ -94,8 +94,8 @@ static Key keys[] = {
     {MODKEY, XK_c, killclient, {0}},
 
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
-    {MODKEY | ShiftMask, XK_w, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
+    // {MODKEY | ShiftMask, XK_w, setlayout, {.v = &layouts[1]}},
+    {MODKEY, XK_m, setlayout, {.v = &layouts[1]}},
 
     {MODKEY, XK_semicolon, cyclelayout, {.i = -1}},
     {MODKEY | ShiftMask, XK_semicolon, cyclelayout, {.i = +1}},
