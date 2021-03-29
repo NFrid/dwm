@@ -4,7 +4,11 @@ dwm is an extremely fast, small, and dynamic window manager for X.
 
 ## The fork of mine
 
-ye some patches and several custom tweeks
+did some patches and several custom tweeks can't remember
+
+now usin' as a true fork not just patched orig
+
+### Changes in my fork
 
 idk you'll figure out if you're smart enough..
 
