@@ -1,5 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
+#ifdef CCLS_
+#include "drw.c"
+#endif
+
 typedef struct {
 	Cursor cursor;
 } Cur;
