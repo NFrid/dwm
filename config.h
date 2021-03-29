@@ -35,6 +35,8 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
      */
     /* class      instance    title       tags mask     isfloating   monitor */
+    {"mpv", NULL, NULL, 1, 0, -1},
+
     {"discord", NULL, NULL, 1 << 2, 0, -1},
     {"TelegramDesktop", NULL, NULL, 1 << 2, 0, -1},
     {"VK", NULL, NULL, 1 << 2, 0, -1},
