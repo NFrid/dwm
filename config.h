@@ -1,24 +1,25 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx       = 2;  /* border pixel of windows */
-static const unsigned int gappx          = 5;  /* gap pixel between windows */
-static const unsigned int snap           = 32; /* snap pixel */
-static const unsigned int systraypinning = 0;
-/* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int borderpx = 2;  /* border pixel of windows */
+static const unsigned int gappx    = 5;  /* gap pixel between windows */
+static const unsigned int snap     = 32; /* snap pixel */
+
+static const unsigned int systraypinning          = 0; /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft           = 0; /* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing          = 2; /* systray spacing */
-static const int          systraypinningfailfirst = 1; /* 1: if pinning fails, display systray on the first monitor, False:
-          display systray on the last monitor*/
-static const int          showsystray             = 1; /* 0 means no systray */
-static const int          showbar                 = 1; /* 0 means no bar */
-static const int          topbar                  = 1; /* 0 means bottom bar */
-static const char*        fonts[]                 = { "Iosevka nf:size=12", "Noto Color Emoji" };
-static const char         col_gray1[]             = "#f8f8f2";
-static const char         col_gray2[]             = "#282a36";
-static const char         col_gray3[]             = "#44475a";
-static const char         col_pink[]              = "#ff79c6";
-static const char*        colors[][3]             = {
+static const int          systraypinningfailfirst = 1; /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+
+static const int showsystray = 1; /* 0 means no systray */
+static const int showbar     = 1; /* 0 means no bar */
+static const int topbar      = 1; /* 0 means bottom bar */
+
+static const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji" };
+static const char  col_gray1[] = "#f8f8f2";
+static const char  col_gray2[] = "#282a36";
+static const char  col_gray3[] = "#44475a";
+static const char  col_pink[]  = "#ff79c6";
+static const char* colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { col_gray1, col_gray2, col_gray2 },
   [SchemeSel]  = { col_gray1, col_gray3, col_pink },
@@ -53,12 +54,14 @@ static const int   nmaster     = 1;    /* number of clients in master area */
 static const int   resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
-  /* symbol     arrange function */
-  { "[]=", tile }, /* first entry is default */
-  // {"><>", NULL}, /* no layout function means floating behavior */
-  { "[M]", monocle },
-  { "TTT", bstack },
-  { NULL, NULL },
+  // clang-format off
+  /* symbol   arrange function */
+  { "[]=",    tile },
+  // {"><>",     NULL},
+  { "[M]",    monocle },
+  { "TTT",    bstack },
+  { NULL,     NULL },
+  // clang-format on
 };
 
 /* key definitions */
@@ -67,7 +70,9 @@ static const Layout layouts[] = {
   { MODKEY, KEY, view, { .ui = 1 << TAG } },                      \
       { MODKEY | Mod1Mask, KEY, toggleview, { .ui = 1 << TAG } }, \
       { MODKEY | ShiftMask, KEY, tag, { .ui = 1 << TAG } },       \
-      { MODKEY | ControlMask, KEY, toggletag, { .ui = 1 << TAG } },
+  {                                                               \
+    MODKEY | ControlMask, KEY, toggletag, { .ui = 1 << TAG }      \
+  }
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                      \
@@ -78,7 +83,7 @@ static const Layout layouts[] = {
 #include "movestack.c"
 #include "focusurgent.c"
 static Key keys[] = {
-  /* modifier                     key        function        argument */
+  /* modifier            key         function        argument */
   { MODKEY, XK_v, togglebar, { 0 } },
 
   { MODKEY, XK_j, focusstack, { .i = +1 } },
@@ -117,18 +122,25 @@ static Key keys[] = {
   // {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
   // {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
 
-  TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
-      TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-          TAGKEYS(XK_9, 8)
-              TAGKEYS(XK_minus, 9) { MODKEY | ShiftMask, XK_r, quit, { 0 } },
+  TAGKEYS(XK_1, 0),
+  TAGKEYS(XK_2, 1),
+  TAGKEYS(XK_3, 2),
+  TAGKEYS(XK_4, 3),
+  TAGKEYS(XK_5, 4),
+  TAGKEYS(XK_6, 5),
+  TAGKEYS(XK_7, 6),
+  TAGKEYS(XK_8, 7),
+  TAGKEYS(XK_9, 8),
+  TAGKEYS(XK_minus, 9),
+
+  { MODKEY | ShiftMask, XK_r, quit, { 0 } },
 };
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
  * ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-  /* click                event mask      button          function argument
-     */
+  /* click                event mask      button          function argument */
   { ClkLtSymbol, 0, Button1, setlayout, { .v = &layouts[0] } },
   { ClkLtSymbol, 0, Button2, setlayout, { .v = &layouts[3] } },
   { ClkLtSymbol, 0, Button3, setlayout, { .v = &layouts[1] } },

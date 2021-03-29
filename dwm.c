@@ -10,7 +10,12 @@
  * love,
  * Nick Friday <nfriday@ya.ru> 🗿
  */
+#ifdef XINERAMA
+#include <X11/extensions/Xinerama.h>
+#endif /* XINERAMA */
+
 #include <X11/Xatom.h>
+#include <X11/Xft/Xft.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
 #include <X11/Xutil.h>
@@ -26,10 +31,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#ifdef XINERAMA
-#include <X11/extensions/Xinerama.h>
-#endif /* XINERAMA */
-#include <X11/Xft/Xft.h>
 
 #include "drw.h"
 #include "util.h"
@@ -1423,11 +1424,11 @@ void movemouse(const Arg* arg) {
       ny = ocy + (ev.xmotion.y - y);
       if (abs(selmon->wx - nx) < snap)
         nx = selmon->wx;
-      else if (abs((selmon->wx + selmon->ww) - (nx + WIDTH(c))) < snap)
+      else if ((selmon->wx + selmon->ww) - (nx + WIDTH(c)) < snap)
         nx = selmon->wx + selmon->ww - WIDTH(c);
       if (abs(selmon->wy - ny) < snap)
         ny = selmon->wy;
-      else if (abs((selmon->wy + selmon->wh) - (ny + HEIGHT(c))) < snap)
+      else if ((selmon->wy + selmon->wh) - (ny + HEIGHT(c)) < snap)
         ny = selmon->wy + selmon->wh - HEIGHT(c);
       if (!c->isfloating && selmon->lt[selmon->sellt]->arrange
           && (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
