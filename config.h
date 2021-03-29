@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+// #include "dwm.c" // for language server to work fine
+/* COMMENT THIS INCLUDE BEFORE COMPILE */
+
 /* appearance */
 static const unsigned int borderpx = 2;  /* border pixel of windows */
 static const unsigned int gappx    = 5;  /* gap pixel between windows */
