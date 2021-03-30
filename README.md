@@ -1,5 +1,7 @@
 # dwm - dynamic window manager
 
+![dwm logo](dwm.png)
+
 dwm is an extremely fast, small, and dynamic window manager for X.
 
 ## The fork of mine
