@@ -42,7 +42,7 @@ u can just fork it and make it "better"
 Also you can try and PR your changes, but I don't usually agree with other
 people.
 
-If forking it doesn't suit you - gtfu. That's how it works. Simple enough.
+If forking it doesn't suit you - gtfo. That's how it works. Simple enough.
 
 ## Requirements
 
