@@ -54,9 +54,9 @@ Edit `config.mk` to match your local setup.
 
 Edit `config.h` to configure some of the aspects of your build.
 
-Enter the following command to build and install dwm (if necessary as root):
+Enter something like the following command to build and install dwm:
 
-    make clean install
+    sudo make install && make clean
 
 ## Running dwm
 
