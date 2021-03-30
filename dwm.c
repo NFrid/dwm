@@ -730,8 +730,7 @@ void configurerequest(XEvent* e) {
   XSync(dpy, False);
 }
 
-Monitor*
-createmon(void) {
+Monitor* createmon(void) {
   Monitor*     m;
   unsigned int i;
 
@@ -963,9 +962,6 @@ void drawbar(Monitor* m) {
 
   /* draw status first so it can be overdrawn by tags later */
   if (m == selmon) { /* status is only drawn on selected monitor */
-    // drw_setscheme(drw, scheme[SchemeNorm]);
-    // tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px padding */
-    // drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
     tw = m->ww - drawstatusbar(m, bh, stext, stw);
   }
 
@@ -1445,8 +1441,7 @@ void movemouse(const Arg* arg) {
   }
 }
 
-Client*
-nexttiled(Client* c) {
+Client* nexttiled(Client* c) {
   for (; c && (c->isfloating || !ISVISIBLE(c)); c = c->next)
     ;
   return c;
@@ -2521,8 +2516,7 @@ void view(const Arg* arg) {
   arrange(selmon);
 }
 
-Client*
-wintoclient(Window w) {
+Client* wintoclient(Window w) {
   Client*  c;
   Monitor* m;
 
@@ -2533,8 +2527,7 @@ wintoclient(Window w) {
   return NULL;
 }
 
-Client*
-wintosystrayicon(Window w) {
+Client* wintosystrayicon(Window w) {
   Client* i = NULL;
 
   if (!showsystray || !w)
@@ -2544,8 +2537,7 @@ wintosystrayicon(Window w) {
   return i;
 }
 
-Monitor*
-wintomon(Window w) {
+Monitor* wintomon(Window w) {
   int      x, y;
   Client*  c;
   Monitor* m;
@@ -2590,8 +2582,7 @@ int xerrorstart(Display* dpy, XErrorEvent* ee) {
   return -1;
 }
 
-Monitor*
-systraytomon(Monitor* m) {
+Monitor* systraytomon(Monitor* m) {
   Monitor* t;
   int      i, n;
   if (!systraypinning) {
@@ -2620,8 +2611,7 @@ void zoom(const Arg* arg) {
   pop(c);
 }
 
-static void
-bstack(Monitor* m) {
+static void bstack(Monitor* m) {
   int          w, h, mh, mx, tx, ty, tw;
   unsigned int i, n;
   Client*      c;
