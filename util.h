@@ -8,3 +8,5 @@
 void die(const char* fmt, ...);
 // throw an error and fucking die
 void* ecalloc(size_t nmemb, size_t size);
+// count number of ones in binary representation
+unsigned int n_ones(unsigned int n);

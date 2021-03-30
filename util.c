@@ -6,7 +6,6 @@
 
 #include "util.h"
 
-// like calloc, but with error handling
 void* ecalloc(size_t nmemb, size_t size) {
   void* p;
 
@@ -15,7 +14,6 @@ void* ecalloc(size_t nmemb, size_t size) {
   return p;
 }
 
-// throw an error and fucking die
 void die(const char* fmt, ...) {
   va_list ap;
 
@@ -31,4 +29,13 @@ void die(const char* fmt, ...) {
   }
 
   exit(1);
+}
+
+unsigned int n_ones(unsigned int n) {
+  unsigned int c = 0;
+  while (n) {
+    c += n & 1;
+    n >>= 1;
+  }
+  return c;
 }
