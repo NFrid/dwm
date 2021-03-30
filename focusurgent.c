@@ -1,12 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
-#ifdef CCLS_
-#include "dwm.c"
-#endif
-
-static void
-focusurgent(const Arg* arg)
-{
+// focus urgent item and its tag
+static void focusurgent(const Arg* arg) {
   Client* c;
   int     i;
   for (c = selmon->clients; c && !c->isurgent; c = c->next)

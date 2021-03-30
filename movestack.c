@@ -1,9 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
-#ifdef CCLS_
-#include "dwm.c"
-#endif
-
+/* move focused item in stack
+  * arg.i - shift amount (e.g. +1)
+  */
 void movestack(const Arg* arg) {
   Client *c = NULL, *p = NULL, *pc = NULL, *i;
 

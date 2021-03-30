@@ -1,9 +1,5 @@
 /* See LICENSE file for copyright and license details. */
 
-#ifdef CCLS_
-#include "dwm.c" // for language server to work fine
-#endif
-
 /* appearance */
 static const unsigned int borderpx = 2;  /* border pixel of windows */
 static const unsigned int gappx    = 5;  /* gap pixel between windows */
@@ -38,7 +34,8 @@ static const Rule rules[] = {
     *  WM_NAME(STRING) = title
     */
   // clang-format off
-  /* class              instance  title   tags mask   isfloating    monitor */
+  /* 
+   * class              instance  title   tags mask   isfloating    monitor */
   { "mpv",              NULL,     NULL,   1,          0,            -1 },
 
   { "discord",          NULL,     NULL,   1 << 2,     0,            -1 },
@@ -59,7 +56,8 @@ static const int   resizehints = 1;    /* 1 means respect size hints in tiled re
 
 static const Layout layouts[] = {
   // clang-format off
-  /* symbol   arrange function */
+  /* 
+   * symbol   arrange function */
   { "[]=",    tile },
   // {"><>",     NULL},
   { "[M]",    monocle },
