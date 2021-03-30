@@ -10,7 +10,12 @@ now usin' as a true fork not just patched orig
 
 ### Changes in my fork
 
-idk you'll figure out if you're smart enough..
+still tryin' to comment all the things I understood
+(fuck you suckless devs and ily ❣️)
+
+made some changes, some refactoring...
+
+idk you'll figure out if you're smart enough.
 
 ### Your code style sucks!!
 
