@@ -522,8 +522,7 @@ void detachstack(Client* c) {
   }
 }
 
-Monitor*
-dirtomon(int dir) {
+Monitor* dirtomon(int dir) {
   Monitor* m = NULL;
 
   if (dir > 0) {
