@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+#ifndef CONFIG_H_
+#define CONFIG_H_
+
 /* appearance */
 static const unsigned int borderpx = 2;  // border pixel of windows
 static const unsigned int gappx    = 5;  // gap pixel between windows
@@ -79,8 +82,6 @@ static const Layout layouts[] = {
     MODKEY | ControlMask, KEY, toggletag, { .ui = 1 << TAG }      \
   }
 
-#include "movestack.c"
-#include "focusurgent.c"
 static Key keys[] = {
   /* modifier            key         function        argument */
   { MODKEY, XK_v, togglebar, { 0 } },
@@ -152,3 +153,5 @@ static Button buttons[] = {
   // {ClkTagBar, MODKEY, Button1, tag, {0}},
   // {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
+
+#endif // CONFIG_H_

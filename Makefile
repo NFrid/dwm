@@ -6,15 +6,9 @@ include config.mk
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: options dwm
+all: dwm
 
-options:
-	@echo dwm build options:
-	@echo "CFLAGS   = ${CFLAGS}"
-	@echo "LDFLAGS  = ${LDFLAGS}"
-	@echo "CC       = ${CC}"
-
-.c.o:
+%.o: %.c
 	${CC} -c ${CFLAGS} $<
 
 ${OBJ}: config.h config.mk
@@ -23,7 +17,7 @@ dwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -f dwm ${OBJ}
+	rm -rf dwm ${OBJ}
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
@@ -33,4 +27,4 @@ install: all
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm
 
-.PHONY: all options clean dist install uninstall
+.PHONY: all clean install uninstall

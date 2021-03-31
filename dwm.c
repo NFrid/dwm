@@ -37,6 +37,8 @@
 
 #include "dwm.h"
 
+#include "config.h"
+
 /* variables */
 static Systray*   systray  = NULL;
 static const char broken[] = "broken";
@@ -75,8 +77,6 @@ static Drw*     drw;
 static Monitor *mons, *selmon;
 static Window   root, wmcheckwin;
 
-#include "config.h"
-
 struct Pertag {
   unsigned int  curtag, prevtag;             // current and previous tag
   int           nmasters[LENGTH(tags) + 1];  // number of windows in master area
@@ -90,6 +90,10 @@ struct Pertag {
 struct NumTags {
   char limitexceeded[LENGTH(tags) > 31 ? -1 : 1];
 };
+
+// #include "focusurgent.c"
+// #include "movestack.c"
+#include "features.c"
 
 /* function implementations */
 void applyrules(Client* c) {

@@ -6,6 +6,7 @@
 
 #include "util.h"
 
+// like calloc, but with error throwing
 void* ecalloc(size_t nmemb, size_t size) {
   void* p;
 
@@ -14,6 +15,7 @@ void* ecalloc(size_t nmemb, size_t size) {
   return p;
 }
 
+// throw an error and fucking die
 void die(const char* fmt, ...) {
   va_list ap;
 
@@ -31,6 +33,7 @@ void die(const char* fmt, ...) {
   exit(1);
 }
 
+// count number of ones in binary representation
 unsigned int n_ones(unsigned int n) {
   unsigned int c = 0;
   while (n) {

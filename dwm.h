@@ -1,3 +1,6 @@
+#ifndef DWM_H_
+#define DWM_H_
+
 /* macros */
 
 #define BUTTONMASK               (ButtonPressMask | ButtonReleaseMask)
@@ -265,3 +268,9 @@ static int          xerrordummy(Display* dpy, XErrorEvent* ee);
 static int          xerrorstart(Display* dpy, XErrorEvent* ee);
 static void         zoom(const Arg* arg);
 static void         bstack(Monitor* m);
+
+// features
+static void focusurgent(const Arg* arg);
+void        movestack(const Arg* arg);
+
+#endif // DWM_H_
