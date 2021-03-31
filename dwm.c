@@ -37,19 +37,56 @@
 
 #include "dwm.h"
 
-/* configuration, allows nested code to access above variables */
+/* variables */
+static Systray*   systray  = NULL;
+static const char broken[] = "broken";
+static char       stext[1024];
+static int        screen;
+static int        sw, sh;      /* X display screen geometry width, height */
+static int        bh, blw = 0; /* bar geometry */
+static int        lrpad;       /* sum of left and right padding for text */
+static int (*xerrorxlib)(Display*, XErrorEvent*);
+static unsigned int numlockmask = 0;
+
+// handle XEvent to its function
+static void (*handler[LASTEvent])(XEvent*) = {
+  [ButtonPress]      = buttonpress,
+  [ClientMessage]    = clientmessage,
+  [ConfigureRequest] = configurerequest,
+  [ConfigureNotify]  = configurenotify,
+  [DestroyNotify]    = destroynotify,
+  [EnterNotify]      = enternotify,
+  [Expose]           = expose,
+  [FocusIn]          = focusin,
+  [KeyPress]         = keypress,
+  [MappingNotify]    = mappingnotify,
+  [MapRequest]       = maprequest,
+  [MotionNotify]     = motionnotify,
+  [PropertyNotify]   = propertynotify,
+  [ResizeRequest]    = resizerequest,
+  [UnmapNotify]      = unmapnotify
+};
+static Atom     wmatom[WMLast], netatom[NetLast], xatom[XLast];
+static int      running = 1;
+static Cur*     cursor[CurLast];
+static Clr**    scheme;
+static Display* dpy;
+static Drw*     drw;
+static Monitor *mons, *selmon;
+static Window   root, wmcheckwin;
+
 #include "config.h"
 
 struct Pertag {
-  unsigned int  curtag, prevtag;             /* current and previous tag */
-  int           nmasters[LENGTH(tags) + 1];  /* number of windows in master area */
-  float         mfacts[LENGTH(tags) + 1];    /* mfacts per tag */
-  unsigned int  sellts[LENGTH(tags) + 1];    /* selected layouts */
-  const Layout* ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
-  int           showbars[LENGTH(tags) + 1];  /* display bar for the current tag */
+  unsigned int  curtag, prevtag;             // current and previous tag
+  int           nmasters[LENGTH(tags) + 1];  // number of windows in master area
+  float         mfacts[LENGTH(tags) + 1];    // mfacts per tag
+  unsigned int  sellts[LENGTH(tags) + 1];    // selected layouts
+  const Layout* ltidxs[LENGTH(tags) + 1][2]; // matrix of tags and layouts indexes
+  int           showbars[LENGTH(tags) + 1];  // display bar for the current tag
 };
 
-/* compile-time check if all tags fit into an unsigned int bit array. */
+// compile-time check if all tags fit into an unsigned int bit array.
 struct NumTags {
   char limitexceeded[LENGTH(tags) > 31 ? -1 : 1];
 };
@@ -228,21 +265,23 @@ void buttonpress(XEvent* e) {
       buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
 }
 
+// throws an error if some other window manager is running
 void checkotherwm(void) {
   xerrorxlib = XSetErrorHandler(xerrorstart);
-  /* this causes an error if some other window manager is running */
   XSelectInput(dpy, DefaultRootWindow(dpy), SubstructureRedirectMask);
   XSync(dpy, False);
   XSetErrorHandler(xerror);
   XSync(dpy, False);
 }
 
+// uninitialize wm
 void cleanup(void) {
   Arg      a   = { .ui = ~0 };
   Layout   foo = { "", NULL };
   Monitor* m;
   size_t   i;
 
+  // destroy, free and unmanage all the stuff
   view(&a);
   selmon->lt[selmon->sellt] = &foo;
   for (m = mons; m; m = m->next)
@@ -267,6 +306,7 @@ void cleanup(void) {
   XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 }
 
+// unitialize monitor specific stuff
 void cleanupmon(Monitor* mon) {
   Monitor* m;
 
@@ -1378,13 +1418,15 @@ void restack(Monitor* m) {
     ;
 }
 
+// main event loop, active when running != false
 void run(void) {
   XEvent ev;
-  /* main event loop */
-  XSync(dpy, False);
+  XSync(dpy, False); // all calls should be executed before continue
+
+  // blocks when is no events in queue, continues by one event, removing it from queue
   while (running && !XNextEvent(dpy, &ev))
     if (handler[ev.type])
-      handler[ev.type](&ev); /* call handler */
+      handler[ev.type](&ev); // handle an event to its function if there is one
 }
 
 void scan(void) {
@@ -1526,15 +1568,15 @@ void setmfact(const Arg* arg) {
   arrange(selmon);
 }
 
+// initialize wm
 void setup(void) {
   int                  i;
   XSetWindowAttributes wa;
   Atom                 utf8string;
 
-  /* clean up any zombies immediately */
-  sigchld(0);
+  sigchld(0); // clean up any zombies immediately
 
-  /* init screen */
+  // init screen
   screen = DefaultScreen(dpy);
   sw     = DisplayWidth(dpy, screen);
   sh     = DisplayHeight(dpy, screen);
@@ -1542,10 +1584,11 @@ void setup(void) {
   drw    = drw_create(dpy, screen, root, sw, sh);
   if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
     die("no fonts could be loaded.");
-  lrpad = drw->fonts->h;
-  bh    = drw->fonts->h + 2;
+  lrpad = drw->fonts->h * barspacing_font + 2 * barspacing;
+  bh    = drw->fonts->h + 2 * barmargins; // TODO: add setting to set paddings
   updategeom();
-  /* init atoms */
+
+  // init atoms
   utf8string                            = XInternAtom(dpy, "UTF8_STRING", False);
   wmatom[WMProtocols]                   = XInternAtom(dpy, "WM_PROTOCOLS", False);
   wmatom[WMDelete]                      = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
@@ -1567,21 +1610,25 @@ void setup(void) {
   xatom[Manager]                        = XInternAtom(dpy, "MANAGER", False);
   xatom[Xembed]                         = XInternAtom(dpy, "_XEMBED", False);
   xatom[XembedInfo]                     = XInternAtom(dpy, "_XEMBED_INFO", False);
-  /* init cursors */
+
+  // init cursors
   cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
   cursor[CurResize] = drw_cur_create(drw, XC_sizing);
   cursor[CurMove]   = drw_cur_create(drw, XC_fleur);
-  /* init appearance */
+
+  // init appearance
   scheme                 = ecalloc(LENGTH(colors) + 1, sizeof(Clr*));
   scheme[LENGTH(colors)] = drw_scm_create(drw, colors[0], 3);
   for (i = 0; i < LENGTH(colors); i++)
     scheme[i] = drw_scm_create(drw, colors[i], 3);
-  /* init system tray */
+
+  // init system tray
   updatesystray();
-  /* init bars */
+  // init bars
   updatebars();
   updatestatus();
-  /* supporting window for NetWMCheck */
+
+  // supporting window for NetWMCheck
   wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
   XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
       PropModeReplace, (unsigned char*)&wmcheckwin, 1);
@@ -1589,11 +1636,13 @@ void setup(void) {
       PropModeReplace, (unsigned char*)"dwm", 3);
   XChangeProperty(dpy, root, netatom[NetWMCheck], XA_WINDOW, 32,
       PropModeReplace, (unsigned char*)&wmcheckwin, 1);
-  /* EWMH support per view */
+
+  // EWMH support per view
   XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
       PropModeReplace, (unsigned char*)netatom, NetLast);
   XDeleteProperty(dpy, root, netatom[NetClientList]);
-  /* select events */
+
+  // select events
   wa.cursor     = cursor[CurNormal]->cursor;
   wa.event_mask = SubstructureRedirectMask | SubstructureNotifyMask
                 | ButtonPressMask | PointerMotionMask | EnterWindowMask

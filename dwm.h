@@ -30,12 +30,15 @@
 #define XEMBED_EMBEDDED_VERSION (VERSION_MAJOR << 16) | VERSION_MINOR
 
 /* enums */
+
 enum { CurNormal,
   CurResize,
   CurMove,
   CurLast }; /* cursor */
+
 enum { SchemeNorm,
   SchemeSel }; /* color schemes */
+
 enum { NetSupported,
   NetWMName,
   NetWMState,
@@ -50,15 +53,18 @@ enum { NetSupported,
   NetWMWindowTypeDialog,
   NetClientList,
   NetLast }; /* EWMH atoms */
+
 enum { Manager,
   Xembed,
   XembedInfo,
   XLast }; /* Xembed atoms */
+
 enum { WMProtocols,
   WMDelete,
   WMState,
   WMTakeFocus,
   WMLast }; /* default atoms */
+
 enum { ClkTagBar,
   ClkLtSymbol,
   ClkStatusText,
@@ -66,6 +72,8 @@ enum { ClkTagBar,
   ClkClientWin,
   ClkRootWin,
   ClkLast }; /* clicks */
+
+/* types */
 
 typedef union {
   int          i;
@@ -111,27 +119,28 @@ typedef struct {
   void (*arrange)(Monitor*);
 } Layout;
 
-typedef struct Pertag Pertag;
+typedef struct Pertag Pertag; // Pertag
+
 struct Monitor {
-  char          ltsymbol[16];
-  float         mfact;
-  int           nmaster;
-  int           num;
-  int           by;             /* bar geometry */
-  int           mx, my, mw, mh; /* screen size */
-  int           wx, wy, ww, wh; /* window area  */
-  unsigned int  seltags;
-  unsigned int  sellt;
-  unsigned int  tagset[2];
-  int           showbar;
-  int           topbar;
-  Client*       clients;
-  Client*       sel;
-  Client*       stack;
-  Monitor*      next;
-  Window        barwin;
-  const Layout* lt[2];
-  Pertag*       pertag;
+  char          ltsymbol[16];   // symbolic representation of layout
+  float         mfact;          // ratio factor of layout
+  int           nmaster;        // number of masters
+  int           num;            // number (id)
+  int           by;             // bar geometry
+  int           mx, my, mw, mh; // screen size
+  int           wx, wy, ww, wh; // window area
+  unsigned int  seltags;        // selected tags
+  unsigned int  sellt;          // selected layout
+  unsigned int  tagset[2];      // set of tags for the monitor
+  int           showbar;        // 0 means no bar
+  int           topbar;         // 0 means bottom bar
+  Client*       clients;        // clients on this monitor
+  Client*       sel;            // selected client
+  Client*       stack;          // current stack of clients
+  Monitor*      next;           // pointer to next monitor
+  Window        barwin;         // window of the native bar
+  const Layout* lt[2];          // layouts
+  Pertag*       pertag;         // separated parameters (e.g. layout) per tag
 };
 
 typedef struct {
@@ -256,39 +265,3 @@ static int          xerrordummy(Display* dpy, XErrorEvent* ee);
 static int          xerrorstart(Display* dpy, XErrorEvent* ee);
 static void         zoom(const Arg* arg);
 static void         bstack(Monitor* m);
-
-/* variables */
-static Systray*   systray  = NULL;
-static const char broken[] = "broken";
-static char       stext[1024];
-static int        screen;
-static int        sw, sh;      /* X display screen geometry width, height */
-static int        bh, blw = 0; /* bar geometry */
-static int        lrpad;       /* sum of left and right padding for text */
-static int (*xerrorxlib)(Display*, XErrorEvent*);
-static unsigned int numlockmask            = 0;
-static void (*handler[LASTEvent])(XEvent*) = {
-  [ButtonPress]      = buttonpress,
-  [ClientMessage]    = clientmessage,
-  [ConfigureRequest] = configurerequest,
-  [ConfigureNotify]  = configurenotify,
-  [DestroyNotify]    = destroynotify,
-  [EnterNotify]      = enternotify,
-  [Expose]           = expose,
-  [FocusIn]          = focusin,
-  [KeyPress]         = keypress,
-  [MappingNotify]    = mappingnotify,
-  [MapRequest]       = maprequest,
-  [MotionNotify]     = motionnotify,
-  [PropertyNotify]   = propertynotify,
-  [ResizeRequest]    = resizerequest,
-  [UnmapNotify]      = unmapnotify
-};
-static Atom     wmatom[WMLast], netatom[NetLast], xatom[XLast];
-static int      running = 1;
-static Cur*     cursor[CurLast];
-static Clr**    scheme;
-static Display* dpy;
-static Drw*     drw;
-static Monitor *mons, *selmon;
-static Window   root, wmcheckwin;

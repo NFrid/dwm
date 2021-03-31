@@ -1,18 +1,22 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx = 2;  /* border pixel of windows */
-static const unsigned int gappx    = 5;  /* gap pixel between windows */
-static const unsigned int snap     = 32; /* snap pixel */
+static const unsigned int borderpx = 2;  // border pixel of windows
+static const unsigned int gappx    = 5;  // gap pixel between windows
+static const unsigned int snap     = 32; // snap pixel
 
-static const unsigned int systraypinning          = 0; /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayonleft           = 0; /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing          = 2; /* systray spacing */
-static const int          systraypinningfailfirst = 1; /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const unsigned int systraypinning          = 0; // 0: sloppy systray follows selected monitor, >0: pin systray to monitor X
+static const unsigned int systrayonleft           = 0; // 0: systray in the right corner, >0: systray on left of status text
+static const unsigned int systrayspacing          = 2; // systray spacing
+static const int          systraypinningfailfirst = 1; // 1: if pinning fails, display systray on the first monitor, False: display systray on the last monito
 
-static const int showsystray = 1; /* 0 means no systray */
-static const int showbar     = 1; /* 0 means no bar */
-static const int topbar      = 1; /* 0 means bottom bar */
+static const int showsystray = 1; // 0 means no systray
+static const int showbar     = 1; // 0 means no bar
+static const int topbar      = 1; // 0 means bottom bar
+
+static const unsigned int barmargins      = 1; // vertical margins for bar
+static const unsigned int barspacing      = 0; // spacing between bar elements
+static const unsigned int barspacing_font = 1; // spacing in font widths
 
 static const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji" };
 static const char  col_gray1[] = "#f8f8f2";
@@ -20,7 +24,7 @@ static const char  col_gray2[] = "#282a36";
 static const char  col_gray3[] = "#44475a";
 static const char  col_pink[]  = "#ff79c6";
 static const char* colors[][3] = {
-  /*               fg         bg         border   */
+  //               fg         bg         border
   [SchemeNorm] = { col_gray1, col_gray2, col_gray2 },
   [SchemeSel]  = { col_gray1, col_gray3, col_pink },
 };
@@ -56,13 +60,12 @@ static const int   resizehints = 1;    /* 1 means respect size hints in tiled re
 
 static const Layout layouts[] = {
   // clang-format off
-  /* 
-   * symbol   arrange function */
-  { "[]=",    tile },
-  // {"><>",     NULL},
-  { "[M]",    monocle },
-  { "TTT",    bstack },
-  { NULL,     NULL },
+  // symbol  arrange function
+  { "[]=",   tile },
+  // { "><>",   NULL },
+  { "[M]",   monocle },
+  { "TTT",   bstack },
+  { NULL,    NULL },
   // clang-format on
 };
 
