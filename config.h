@@ -4,6 +4,7 @@
 #define CONFIG_H_
 
 /* appearance */
+
 static const unsigned int borderpx = 2;  // border pixel of windows
 static const unsigned int gappx    = 5;  // gap pixel between windows
 static const unsigned int snap     = 32; // snap pixel
@@ -28,51 +29,59 @@ static const char  col_gray3[] = "#44475a";
 static const char  col_pink[]  = "#ff79c6";
 static const char* colors[][3] = {
   //               fg         bg         border
-  [SchemeNorm] = { col_gray1, col_gray2, col_gray2 },
-  [SchemeSel]  = { col_gray1, col_gray3, col_pink },
+  [SchemeNorm] = { col_gray1, col_gray2, col_gray2 }, // client's default
+  [SchemeSel]  = { col_gray1, col_gray3, col_pink },  // for selected client
 };
 
-/* tagging */
+// tags, I suppose...
 static const char* tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-
-static const Rule rules[] = {
-  /* xprop(1):
-    *  WM_CLASS(STRING) = instance, class
-    *  WM_NAME(STRING) = title
-    */
+// specific defaults for specific tags
+static const PertagRule pertagrules[] = {
   // clang-format off
-  /* 
-   * class              instance  title   tags mask   isfloating    monitor */
-  { "mpv",              NULL,     NULL,   1,          0,            -1 },
+//* tag, layout, mfact
+  { 2,    1,      -1 },
+  { 6,    2,      0.85 }
+  // clang-format on
+};
 
-  { "discord",          NULL,     NULL,   1 << 2,     0,            -1 },
-  { "TelegramDesktop",  NULL,     NULL,   1 << 2,     0,            -1 },
-  { "VK",               NULL,     NULL,   1 << 2,     0,            -1 },
+// specific defaults for specific clients
+static const Rule rules[] = {
+  // clang-format off
+//* class               instance  title   tags mask   isfloating  monitor
+  { "mpv",              NULL,     NULL,   1,          0,          -1 },
 
-  { "sxiv",             NULL,     NULL,   0,          0,            -1 },
-  { "Zathura",          NULL,     NULL,   0,          0,            -1 },
+  { "discord",          NULL,     NULL,   1 << 2,     0,          -1 },
+  { "TelegramDesktop",  NULL,     NULL,   1 << 2,     0,          -1 },
+  { "VK",               NULL,     NULL,   1 << 2,     0,          -1 },
 
-  { "Crow Translate",   NULL,     NULL,   0,          1,            -1 },
+  { "code-oss",         NULL,     NULL,   1 << 6,     0,          -1 },
+
+  { "sxiv",             NULL,     NULL,   0,          0,          -1 },
+  { "Zathura",          NULL,     NULL,   0,          0,          -1 },
+
+  { "Crow Translate",   NULL,     NULL,   0,          1,          -1 },
   // clang-format on
 };
 
 /* layout(s) */
-static const float mfact       = 0.55; /* factor of master area size [0.05..0.95] */
-static const int   nmaster     = 1;    /* number of clients in master area */
-static const int   resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+
+static const float mfact       = 0.55; // factor of master area size [0.05..0.95]
+static const int   nmaster     = 1;    // number of clients in master area
+static const int   resizehints = 1;    // 1 means respect size hints in tiled resizals
 
 static const Layout layouts[] = {
   // clang-format off
-  // symbol  arrange function
-  { "[]=",   tile },
-  // { "><>",   NULL },
-  { "[M]",   monocle },
-  { "TTT",   bstack },
-  { NULL,    NULL },
+//* symbol  arrange function */
+  { "[]=",  tile },
+  // { "><>",  NULL },
+  { "[M]",  monocle },
+  { "TTT",  bstack },
+  { NULL,   NULL },
   // clang-format on
 };
 
 /* key definitions */
+
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY, TAG)                                         \
   { MODKEY, KEY, view, { .ui = 1 << TAG } },                      \
@@ -82,45 +91,44 @@ static const Layout layouts[] = {
     MODKEY | ControlMask, KEY, toggletag, { .ui = 1 << TAG }      \
   }
 
+// keybindings
 static Key keys[] = {
-  /* modifier            key         function        argument */
-  { MODKEY, XK_v, togglebar, { 0 } },
+  // clang-format off
+//* modifier, key                       function, argument
+  { MODKEY, XK_v,                       togglebar, { 0 } },
 
-  { MODKEY, XK_j, focusstack, { .i = +1 } },
-  { MODKEY, XK_k, focusstack, { .i = -1 } },
-  { MODKEY, XK_l, shiftviewclients, { .i = +1 } },
-  { MODKEY, XK_h, shiftviewclients, { .i = -1 } },
+  { MODKEY, XK_j,                       focusstack, { .i = +1 } },
+  { MODKEY, XK_k,                       focusstack, { .i = -1 } },
+  { MODKEY, XK_l,                       shiftviewclients, { .i = +1 } },
+  { MODKEY, XK_h,                       shiftviewclients, { .i = -1 } },
 
-  { MODKEY, XK_i, incnmaster, { .i = +1 } },
-  { MODKEY | ShiftMask, XK_i, incnmaster, { .i = -1 } },
-  { MODKEY | ShiftMask, XK_h, setmfact, { .f = -0.05 } },
-  { MODKEY | ShiftMask, XK_l, setmfact, { .f = +0.05 } },
-  { MODKEY | ShiftMask, XK_j, movestack, { .i = +1 } },
-  { MODKEY | ShiftMask, XK_k, movestack, { .i = -1 } },
+  { MODKEY, XK_i,                       incnmaster, { .i = +1 } },
+  { MODKEY | ShiftMask, XK_i,           incnmaster, { .i = -1 } },
+  { MODKEY | ShiftMask, XK_h,           setmfact, { .f = -0.05 } },
+  { MODKEY | ShiftMask, XK_l,           setmfact, { .f = +0.05 } },
+  { MODKEY | ShiftMask, XK_j,           movestack, { .i = +1 } },
+  { MODKEY | ShiftMask, XK_k,           movestack, { .i = -1 } },
 
-  { MODKEY, XK_x, zoom, { 0 } },
-  { MODKEY, XK_o, view, { 0 } },
-  { MODKEY, XK_c, killclient, { 0 } },
-  { MODKEY, XK_u, focusurgent, { 0 } },
+  { MODKEY, XK_x,                       zoom, { 0 } },
+  { MODKEY, XK_o,                       view, { 0 } },
+  { MODKEY, XK_c,                       killclient, { 0 } },
+  { MODKEY, XK_u,                       focusurgent, { 0 } },
 
-  // {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
-  // {MODKEY | ShiftMask, XK_w, setlayout, {.v = &layouts[1]}},
-  // {MODKEY, XK_m, setlayout, {.v = &layouts[1]}},
+  // {MODKEY, XK_t,                        setlayout, {.v = &layouts[0]}},
+  // {MODKEY | ShiftMask, XK_w,            setlayout, {.v = &layouts[1]}},
+  // {MODKEY, XK_m,                        setlayout, {.v = &layouts[1]}},
 
-  { MODKEY, XK_semicolon, cyclelayout, { .i = -1 } },
-  { MODKEY | ShiftMask, XK_semicolon, cyclelayout, { .i = +1 } },
+  { MODKEY, XK_apostrophe,              cyclelayout, { .i = -1 } },
+  { MODKEY | ShiftMask, XK_apostrophe,  cyclelayout, { .i = +1 } },
 
-  { MODKEY | ShiftMask, XK_t, setlayout, { 0 } },
-  { MODKEY, XK_w, togglefloating, { 0 } },
-  { MODKEY, XK_f, togglefullscr, { 0 } },
+  { MODKEY | ShiftMask, XK_t,           setlayout, { 0 } },
+  { MODKEY, XK_w,                       togglefloating, { 0 } },
+  { MODKEY, XK_f,                       togglefullscr, { 0 } },
 
-  { MODKEY, XK_minus, view, { .ui = ~0 } },
-  { MODKEY | ShiftMask, XK_minus, tag, { .ui = ~0 } },
-
-  // {MODKEY, XK_comma, focusmon, {.i = -1}},
-  // {MODKEY, XK_period, focusmon, {.i = +1}},
-  // {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
-  // {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
+  { MODKEY, XK_comma,                   focusmon, {.i = -1}},
+  { MODKEY, XK_period,                  focusmon, {.i = +1}},
+  { MODKEY | ShiftMask,                 XK_comma, tagmon, {.i = -1}},
+  { MODKEY | ShiftMask,                 XK_period, tagmon, {.i = +1}},
 
   TAGKEYS(XK_1, 0),
   TAGKEYS(XK_2, 1),
@@ -133,25 +141,35 @@ static Key keys[] = {
   TAGKEYS(XK_9, 8),
   TAGKEYS(XK_0, 9),
 
-  { MODKEY | ShiftMask, XK_r, quit, { 0 } },
+  { MODKEY, XK_minus,                   view, { .ui = ~0 } },
+  { MODKEY | ShiftMask, XK_minus,       tag, { .ui = ~0 } },
+
+  { MODKEY | ShiftMask, XK_r,           quit, { 0 } },
+  // clang-format on
 };
 
 /* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
- * ClkClientWin, or ClkRootWin */
+
+// mouse button keybindings
 static Button buttons[] = {
-  /* click                event mask      button          function argument */
-  { ClkLtSymbol, 0, Button1, setlayout, { .v = &layouts[0] } },
-  { ClkLtSymbol, 0, Button2, setlayout, { .v = &layouts[3] } },
-  { ClkLtSymbol, 0, Button3, setlayout, { .v = &layouts[1] } },
-  { ClkWinTitle, 0, Button2, zoom, { 0 } },
-  { ClkClientWin, MODKEY, Button1, movemouse, { 0 } },
-  { ClkClientWin, MODKEY, Button2, togglefloating, { 0 } },
-  { ClkClientWin, MODKEY, Button3, resizemouse, { 0 } },
-  { ClkTagBar, 0, Button1, view, { 0 } },
-  { ClkTagBar, 0, Button3, toggleview, { 0 } },
-  // {ClkTagBar, MODKEY, Button1, tag, {0}},
-  // {ClkTagBar, MODKEY, Button3, toggletag, {0}},
+  // click can be:
+  // ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin
+
+  // clang-format off
+//* click event     mask, button      function, argument
+  { ClkLtSymbol,    0, Button1,       setlayout, { .v = &layouts[0] } },
+  { ClkLtSymbol,    0, Button2,       setlayout, { .v = &layouts[2] } },
+  { ClkLtSymbol,    0, Button3,       setlayout, { .v = &layouts[1] } },
+  { ClkWinTitle,    0, Button2,       zoom, { 0 } },
+  { ClkClientWin,   MODKEY, Button1,  movemouse, { 0 } },
+  { ClkClientWin,   MODKEY, Button2,  togglefloating, { 0 } },
+  { ClkClientWin,   MODKEY, Button3,  resizemouse, { 0 } },
+  { ClkTagBar,      0, Button1,       view, { 0 } },
+  { ClkTagBar,      0, Button2,       toggletag, { 0 } },
+  { ClkTagBar,      0, Button3,       toggleview, { 0 } },
+  { ClkTagBar,      MODKEY, Button1,  tag, { 0 } },
+  { ClkTagBar,      MODKEY, Button3,  toggletag, { 0 } },
+  // clang-format on
 };
 
 #endif // CONFIG_H_
