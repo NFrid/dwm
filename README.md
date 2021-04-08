@@ -48,7 +48,7 @@ If forking it doesn't suit you - gtfo. That's how it works. Simple enough.
 
 ## Requirements
 
-`Xlib` header files. That's it.
+`Xlib` header files, `libxft-bgra` (or disable colored emojis stuff by urself).
 
 ## Installation
 
