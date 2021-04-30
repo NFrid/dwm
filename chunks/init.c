@@ -139,3 +139,29 @@ Monitor* createmon(void) {
 
   return m;
 }
+
+// check if current setup is valid and ready
+void scan(void) {
+  unsigned int      i, num;
+  Window            d1, d2, *wins = NULL;
+  XWindowAttributes wa;
+
+  if (XQueryTree(dpy, root, &d1, &d2, &wins, &num)) {
+    for (i = 0; i < num; i++) {
+      if (!XGetWindowAttributes(dpy, wins[i], &wa)
+          || wa.override_redirect || XGetTransientForHint(dpy, wins[i], &d1))
+        continue;
+      if (wa.map_state == IsViewable || getstate(wins[i]) == IconicState)
+        manage(wins[i], &wa);
+    }
+    for (i = 0; i < num; i++) { /* now the transients */
+      if (!XGetWindowAttributes(dpy, wins[i], &wa))
+        continue;
+      if (XGetTransientForHint(dpy, wins[i], &d1)
+          && (wa.map_state == IsViewable || getstate(wins[i]) == IconicState))
+        manage(wins[i], &wa);
+    }
+    if (wins)
+      XFree(wins);
+  }
+}

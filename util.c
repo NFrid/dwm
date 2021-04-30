@@ -15,7 +15,7 @@ void* ecalloc(size_t nmemb, size_t size) {
   return p;
 }
 
-// throw an error and fucking die
+// throw an error and die
 void die(const char* fmt, ...) {
   va_list ap;
 

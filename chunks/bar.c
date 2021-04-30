@@ -392,3 +392,16 @@ Client* wintosystrayicon(Window w) {
     ;
   return i;
 }
+
+// remove system tray icon
+void removesystrayicon(Client* i) {
+  Client** ii;
+
+  if (!showsystray || !i)
+    return;
+  for (ii = &systray->icons; *ii && *ii != i; ii = &(*ii)->next)
+    ;
+  if (ii)
+    *ii = i->next;
+  free(i);
+}

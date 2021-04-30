@@ -1,9 +1,9 @@
-/* See LICENSE file for copyright and license details. */
+// See LICENSE file for copyright and license details.
 
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-/* appearance */
+/* ------------------------------- appearance ------------------------------- */
 
 static const unsigned int borderpx = 2;  // border pixel of windows
 static const unsigned int gappx    = 5;  // gap pixel between windows
@@ -22,7 +22,7 @@ static const unsigned int barmargins      = 1; // vertical margins for bar
 static const unsigned int barspacing      = 0; // spacing between bar elements
 static const unsigned int barspacing_font = 1; // spacing in font widths
 
-static const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji" };
+static const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji", "Source Han Sans JP" };
 static const char  col_gray1[] = "#f8f8f2";
 static const char  col_gray2[] = "#282a36";
 static const char  col_gray3[] = "#44475a";
@@ -54,6 +54,8 @@ static const Rule rules[] = {
   { "TelegramDesktop",  NULL,     NULL,   1 << 2,     0,          -1 },
   { "VK",               NULL,     NULL,   1 << 2,     0,          -1 },
 
+  { "zoom",             NULL,     NULL,   1 << 4,     0,          -1 },
+
   { "code-oss",         NULL,     NULL,   1 << 6,     0,          -1 },
 
   { "sxiv",             NULL,     NULL,   0,          0,          -1 },
@@ -63,7 +65,7 @@ static const Rule rules[] = {
   // clang-format on
 };
 
-/* layout(s) */
+/* -------------------------------- layout(s) ------------------------------- */
 
 static const float mfact       = 0.55; // factor of master area size [0.05..0.95]
 static const int   nmaster     = 1;    // number of clients in master area
@@ -80,7 +82,7 @@ static const Layout layouts[] = {
   // clang-format on
 };
 
-/* key definitions */
+/* ----------------------------- key definitions ---------------------------- */
 
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY, TAG)                                         \
@@ -148,7 +150,7 @@ static Key keys[] = {
   // clang-format on
 };
 
-/* button definitions */
+/* --------------------------- button definitions --------------------------- */
 
 // mouse button keybindings
 static Button buttons[] = {

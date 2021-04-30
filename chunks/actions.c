@@ -1,5 +1,3 @@
-/* See LICENSE file for copyright and license details. */
-
 // just quit from wm
 void quit(const Arg* arg) {
   running = 0;
