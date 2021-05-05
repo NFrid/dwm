@@ -1,0 +1,6 @@
+gcc
+%h -x c++-header
+%c --include=dwm.c
+%c --include=dwm.h
+%c --include=drw.h
+%c --include=config.h
