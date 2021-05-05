@@ -306,17 +306,6 @@ void motionnotify(XEvent* e) {
   mon = m;
 }
 
-void resizerequest(XEvent* e) {
-  XResizeRequestEvent* ev = &e->xresizerequest;
-  Client*              i;
-
-  if ((i = wintosystrayicon(ev->window))) {
-    updatesystrayicongeom(i, ev->width, ev->height);
-    resizebarwin(selmon);
-    updatesystray();
-  }
-}
-
 // resize request event handler
 void resizerequest(XEvent* e) {
   XResizeRequestEvent* ev = &e->xresizerequest;
