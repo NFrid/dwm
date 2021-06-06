@@ -377,7 +377,7 @@ void setlayout(const Arg* arg) {
     drawbar(selmon);
 }
 
-// set current ratio factor (arg > 1.0 will set it absolutely)
+// set current ratio factor (arg.f > 1.0 will set it absolutely)
 void setmfact(const Arg* arg) {
   float f;
 
