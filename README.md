@@ -31,7 +31,7 @@ no cuz it sucks
 
 no.
 
-I like 2 spaces indentation. I think anybody should prefer 2 spaces indentation.
+I like 2 spaces indentation. I think everyone should prefer 2 spaces indentation.
 Tabs are bad. No argue.
 
 Readability is not about indentation - it's about good code with empty lines,
