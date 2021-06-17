@@ -39,8 +39,8 @@ static const char* tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 static const PertagRule pertagrules[] = {
   // clang-format off
 //* tag, layout, mfact
-  { 2,    1,      -1 },
-  { 6,    2,      0.85 }
+  { 2,    1,      -1 }
+  /* { 6,    2,      0.85 } */
   // clang-format on
 };
 
@@ -56,7 +56,7 @@ static const Rule rules[] = {
 
   { "zoom",             NULL,     NULL,   1 << 4,     0,          -1 },
 
-  { "code-oss",         NULL,     NULL,   1 << 6,     0,          -1 },
+  /* { "code-oss",         NULL,     NULL,   1 << 6,     0,          -1 }, */
 
   { "sxiv",             NULL,     NULL,   0,          0,          -1 },
   { "Zathura",          NULL,     NULL,   0,          0,          -1 },
@@ -77,7 +77,7 @@ static const Layout layouts[] = {
   { "[]=",  tile },
   // { "><>",  NULL },
   { "[M]",  monocle },
-  { "TTT",  bstack },
+  /* { "TTT",  bstack }, */
   { NULL,   NULL },
   // clang-format on
 };
@@ -120,8 +120,8 @@ static Key keys[] = {
   // {MODKEY | ShiftMask, XK_w,            setlayout, {.v = &layouts[1]}},
   // {MODKEY, XK_m,                        setlayout, {.v = &layouts[1]}},
 
-  { MODKEY, XK_m,                       cyclelayout, { .i = -1 } },
-  { MODKEY | ShiftMask, XK_m,           cyclelayout, { .i = +1 } },
+  { MODKEY, XK_backslash,               cyclelayout, { .i = +1 } },
+  /* { MODKEY | ShiftMask, XK_backslash,   cyclelayout, { .i = -1 } }, */
 
   { MODKEY | ShiftMask, XK_t,           setlayout, { 0 } },
   { MODKEY, XK_w,                       togglefloating, { 0 } },
@@ -159,9 +159,7 @@ static Button buttons[] = {
 
   // clang-format off
 //* click event     mask, button      function, argument
-  { ClkLtSymbol,    0, Button1,       setlayout, { .v = &layouts[0] } },
-  { ClkLtSymbol,    0, Button2,       setlayout, { .v = &layouts[2] } },
-  { ClkLtSymbol,    0, Button3,       setlayout, { .v = &layouts[1] } },
+  { ClkLtSymbol,    0, Button1,       cyclelayout, { .v = &layouts[0] } },
   { ClkWinTitle,    0, Button2,       zoom, { 0 } },
   { ClkClientWin,   MODKEY, Button1,  movemouse, { 0 } },
   { ClkClientWin,   MODKEY, Button2,  togglefloating, { 0 } },
