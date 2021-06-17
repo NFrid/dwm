@@ -85,7 +85,7 @@ xsetroot -name "something"
 ```
 
 You should use some script to make it dynamic. Also you can use something like
-[dwmblocks](https://github.com/torrinfail/dwmblocks).
+[rootblocks](https://github.com/NFrid/rootblocks)
 
 ### My "startdwm script"
 
