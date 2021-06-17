@@ -1,6 +1,6 @@
 gcc
+--include=dwm.c
+--include=dwm.h
+--include=drw.h
 %h -x c-header
-%c --include=dwm.c
-%c --include=dwm.h
-%c --include=drw.h
 %c --include=config.h

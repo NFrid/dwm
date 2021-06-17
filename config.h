@@ -97,7 +97,7 @@ static const Layout layouts[] = {
 static Key keys[] = {
   // clang-format off
 //* modifier, key                       function, argument
-  { MODKEY, XK_v,                       togglebar, { 0 } },
+  { MODKEY, XK_backslash,                       togglebar, { 0 } },
 
   { MODKEY, XK_j,                       focusstack, { .i = +1 } },
   { MODKEY, XK_k,                       focusstack, { .i = -1 } },
@@ -120,7 +120,7 @@ static Key keys[] = {
   // {MODKEY | ShiftMask, XK_w,            setlayout, {.v = &layouts[1]}},
   // {MODKEY, XK_m,                        setlayout, {.v = &layouts[1]}},
 
-  { MODKEY, XK_backslash,               cyclelayout, { .i = +1 } },
+  { MODKEY, XK_v,               cyclelayout, { .i = +1 } },
   /* { MODKEY | ShiftMask, XK_backslash,   cyclelayout, { .i = -1 } }, */
 
   { MODKEY | ShiftMask, XK_t,           setlayout, { 0 } },
