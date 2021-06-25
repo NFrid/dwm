@@ -1,4 +1,7 @@
 gcc
+-Wall
+-Wextra
+-pedantic
 --include=dwm.c
 --include=dwm.h
 --include=drw.h

@@ -143,7 +143,8 @@ static Key keys[] = {
   TAGKEYS(XK_9, 8),
   TAGKEYS(XK_0, 9),
 
-  { MODKEY, XK_minus,                   view, { .ui = ~0 } },
+  /* { MODKEY, XK_minus,                   view, { .ui = ~0 } }, */
+  { MODKEY, XK_minus,                   toggleall, { 0 } },
   { MODKEY | ShiftMask, XK_minus,       tag, { .ui = ~0 } },
 
   { MODKEY | ShiftMask, XK_r,           quit, { 0 } },

@@ -42,6 +42,16 @@ void view(const Arg* arg) {
   arrange(selmon);
 }
 
+// toggle all view
+void toggleall(const Arg* arg) {
+  Arg tmp;
+  tmp.ui = 0;
+  if (TAGMASK != selmon->tagset[selmon->seltags]) {
+    tmp.ui = TAGMASK;
+  }
+  view(&tmp);
+}
+
 // toggle selected tags with arg.ui tagmask
 void toggleview(const Arg* arg) {
   unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);

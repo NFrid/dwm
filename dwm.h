@@ -281,6 +281,7 @@ static void monocle(Monitor* m);
 
 static void quit(const Arg* arg);
 static void view(const Arg* arg);
+static void toggleall(const Arg* arg);
 static void toggleview(const Arg* arg);
 static void tag(const Arg* arg);
 static void toggletag(const Arg* arg);
