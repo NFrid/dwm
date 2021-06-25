@@ -45,9 +45,10 @@ void view(const Arg* arg) {
 // toggle all view
 void toggleall(const Arg* arg) {
   Arg tmp;
-  tmp.ui = 0;
   if (TAGMASK != selmon->tagset[selmon->seltags]) {
     tmp.ui = TAGMASK;
+  } else {
+    tmp.ui = selmon->sel->tags;
   }
   view(&tmp);
 }
