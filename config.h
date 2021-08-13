@@ -53,6 +53,7 @@ static const Rule rules[] = {
   { "discord",          NULL,     NULL,   1 << 2,     0,          -1 },
   { "TelegramDesktop",  NULL,     NULL,   1 << 2,     0,          -1 },
   { "VK",               NULL,     NULL,   1 << 2,     0,          -1 },
+  { "Element",          NULL,     NULL,   1 << 2,     0,          -1 },
 
   { "zoom",             NULL,     NULL,   1 << 4,     0,          -1 },
 
@@ -97,7 +98,7 @@ static const Layout layouts[] = {
 static Key keys[] = {
   // clang-format off
 //* modifier, key                       function, argument
-  { MODKEY, XK_backslash,                       togglebar, { 0 } },
+  { MODKEY, XK_backslash,               togglebar, { 0 } },
 
   { MODKEY, XK_j,                       focusstack, { .i = +1 } },
   { MODKEY, XK_k,                       focusstack, { .i = -1 } },
@@ -120,7 +121,7 @@ static Key keys[] = {
   // {MODKEY | ShiftMask, XK_w,            setlayout, {.v = &layouts[1]}},
   // {MODKEY, XK_m,                        setlayout, {.v = &layouts[1]}},
 
-  { MODKEY, XK_v,               cyclelayout, { .i = +1 } },
+  { MODKEY, XK_v,                       cyclelayout, { .i = +1 } },
   /* { MODKEY | ShiftMask, XK_backslash,   cyclelayout, { .i = -1 } }, */
 
   { MODKEY | ShiftMask, XK_t,           setlayout, { 0 } },
@@ -129,25 +130,25 @@ static Key keys[] = {
 
   { MODKEY, XK_comma,                   focusmon, {.i = -1}},
   { MODKEY, XK_period,                  focusmon, {.i = +1}},
-  { MODKEY | ShiftMask,                 XK_comma, tagmon, {.i = -1}},
-  { MODKEY | ShiftMask,                 XK_period, tagmon, {.i = +1}},
-
-  TAGKEYS(XK_1, 0),
-  TAGKEYS(XK_2, 1),
-  TAGKEYS(XK_3, 2),
-  TAGKEYS(XK_4, 3),
-  TAGKEYS(XK_5, 4),
-  TAGKEYS(XK_6, 5),
-  TAGKEYS(XK_7, 6),
-  TAGKEYS(XK_8, 7),
-  TAGKEYS(XK_9, 8),
-  TAGKEYS(XK_0, 9),
+  { MODKEY | ShiftMask, XK_comma,       tagmon, {.i = -1}},
+  { MODKEY | ShiftMask, XK_period,      tagmon, {.i = +1}},
 
   /* { MODKEY, XK_minus,                   view, { .ui = ~0 } }, */
   { MODKEY, XK_minus,                   toggleall, { 0 } },
   { MODKEY | ShiftMask, XK_minus,       tag, { .ui = ~0 } },
 
   { MODKEY | ShiftMask, XK_r,           quit, { 0 } },
+
+TAGKEYS(XK_1, 0),
+TAGKEYS(XK_2, 1),
+TAGKEYS(XK_3, 2),
+TAGKEYS(XK_4, 3),
+TAGKEYS(XK_5, 4),
+TAGKEYS(XK_6, 5),
+TAGKEYS(XK_7, 6),
+TAGKEYS(XK_8, 7),
+TAGKEYS(XK_9, 8),
+TAGKEYS(XK_0, 9),
   // clang-format on
 };
 
