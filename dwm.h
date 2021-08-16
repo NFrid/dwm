@@ -40,6 +40,7 @@ enum { CurNormal,
   CurLast }; /* cursor */
 
 enum { SchemeNorm,
+  SchemeInv,
   SchemeSel }; /* color schemes */
 
 enum { NetSupported,
