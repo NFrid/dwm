@@ -132,6 +132,13 @@ void togglefloating(const Arg* arg) {
   arrange(selmon);
 }
 
+void togglesticky(const Arg* arg) {
+  if (!selmon->sel)
+    return;
+  selmon->sel->issticky = !selmon->sel->issticky;
+  arrange(selmon);
+}
+
 // toggle fullscreen state for selected client
 void togglefullscr(const Arg* arg) {
   if (selmon->sel)

@@ -135,7 +135,7 @@ static Key keys[] = {
 
   /* { MODKEY, XK_minus,                   view, { .ui = ~0 } }, */
   { MODKEY, XK_minus,                   toggleall, { 0 } },
-  { MODKEY | ShiftMask, XK_minus,       tag, { .ui = ~0 } },
+  { MODKEY | ShiftMask, XK_minus,       togglesticky, { 0 } },
 
   { MODKEY | ShiftMask, XK_r,           quit, { 0 } },
 
