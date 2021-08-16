@@ -84,20 +84,146 @@ void updatebars(void) {
     if (showsystray && m == systraytomon(m))
       XMapRaised(dpy, systray->win);
     XMapRaised(dpy, m->barwin);
+    m->tabwin = XCreateWindow(dpy, root, m->wx, m->ty, m->ww, th, 0, DefaultDepth(dpy, screen),
+        CopyFromParent, DefaultVisual(dpy, screen),
+        CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa);
+    XDefineCursor(dpy, m->tabwin, cursor[CurNormal]->cursor);
+    XMapRaised(dpy, m->tabwin);
     XSetClassHint(dpy, m->barwin, &ch);
   }
 }
 
+// draw all the tabs on different monitors
+void drawtabs(void) {
+  Monitor* m;
+
+  for (m = mons; m; m = m->next)
+    drawtab(m);
+}
+
+// compare int (idk really, it is needed for drawtab)
+static int cmpint(const void* p1, const void* p2) {
+  /* The actual arguments to this function are "pointers to
+     pointers to char", but strcmp(3) arguments are "pointers
+     to char", hence the following cast plus dereference */
+  return *((int*)p1) > *(int*)p2;
+}
+
+void drawtab(Monitor* m) {
+  Client*      c;
+  unsigned int i;
+  int          itag = -1;
+  char         view_info[50];
+  int          view_info_w = 0;
+  int          sorted_label_widths[MAXTABS];
+  int          tot_width;
+  int          maxsize = bh;
+  int          x       = 0;
+  int          w       = 0;
+
+  //view_info: indicate the tag which is displayed in the view
+  for (i = 0; i < LENGTH(tags); ++i) {
+    if ((selmon->tagset[selmon->seltags] >> i) & 1) {
+      if (itag >= 0) { //more than one tag selected
+        itag = -1;
+        break;
+      }
+      itag = i;
+    }
+  }
+  /* if (0 <= itag && itag < LENGTH(tags)) { */
+  /*   snprintf(view_info, sizeof view_info, "[%s]", tags[itag]); */
+  /* } else { */
+  /*   strncpy(view_info, "[...]", sizeof view_info); */
+  /* } */
+  view_info[sizeof(view_info) - 1] = 0;
+  view_info_w                      = TEXTW(view_info);
+  tot_width                        = view_info_w;
+
+  /* Calculates number of labels and their width */
+  m->ntabs = 0;
+  for (c = m->clients; c; c = c->next) {
+    if (!ISVISIBLE(c))
+      continue;
+    m->tab_widths[m->ntabs] = TEXTW(c->name);
+    tot_width += m->tab_widths[m->ntabs];
+    ++m->ntabs;
+    if (m->ntabs >= MAXTABS)
+      break;
+  }
+
+  if (tot_width > m->ww) { //not enough space to display the labels, they need to be truncated
+    memcpy(sorted_label_widths, m->tab_widths, sizeof(int) * m->ntabs);
+    qsort(sorted_label_widths, m->ntabs, sizeof(int), cmpint);
+    tot_width = view_info_w;
+    for (i = 0; i < m->ntabs; ++i) {
+      if (tot_width + (m->ntabs - i) * sorted_label_widths[i] > m->ww)
+        break;
+      tot_width += sorted_label_widths[i];
+    }
+    maxsize = (m->ww - tot_width) / (m->ntabs - i);
+  } else {
+    maxsize = m->ww;
+  }
+  i = 0;
+  for (c = m->clients; c; c = c->next) {
+    if (!ISVISIBLE(c))
+      continue;
+    if (i >= m->ntabs)
+      break;
+    if (m->tab_widths[i] > maxsize)
+      m->tab_widths[i] = maxsize;
+    w = m->tab_widths[i];
+    drw_setscheme(drw, (c == m->sel) ? scheme[SchemeSel] : scheme[SchemeNorm]);
+    drw_text(drw, x, 0, w, th, lrpad / 2, c->name, 0);
+    x += w;
+    ++i;
+  }
+
+  drw_setscheme(drw, scheme[SchemeNorm]);
+
+  /* cleans interspace between window names and current viewed tag label */
+  w = m->ww - view_info_w - x;
+  drw_text(drw, x, 0, w, th, lrpad / 2, "", 0);
+
+  /* view info */
+  x += w;
+  w = view_info_w;
+  drw_text(drw, x, 0, w, th, lrpad / 2, view_info, 0);
+
+  drw_map(drw, m->tabwin, 0, 0, m->ww, th);
+}
+
 // update position of the bar
 void updatebarpos(Monitor* m) {
+  Client* c;
+  int     nvis = 0;
+
   m->wy = m->my;
   m->wh = m->mh;
   if (m->showbar) {
     m->wh -= bh;
     m->by = m->topbar ? m->wy : m->wy + m->wh;
-    m->wy = m->topbar ? m->wy + bh : m->wy;
-  } else
+    if (m->topbar)
+      m->wy += bh;
+  } else {
     m->by = -bh;
+  }
+
+  for (c = m->clients; c; c = c->next) {
+    if (ISVISIBLE(c))
+      ++nvis;
+  }
+
+  if (m->showtab == showtab_always
+      || ((m->showtab == showtab_auto) && (nvis > 1) && (m->lt[m->sellt]->arrange == monocle))) {
+    m->wh -= th;
+    m->ty = m->toptab ? m->wy : m->wy + m->wh;
+    if (m->toptab)
+      m->wy += th;
+  } else {
+    m->ty = -th;
+  }
 }
 
 // resize bar window

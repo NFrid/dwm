@@ -378,6 +378,14 @@ void togglebar(const Arg* arg) {
   arrange(selmon);
 }
 
+void tabmode(const Arg *arg) {
+  if(arg && arg->i >= 0)
+		selmon->showtab = arg->ui % showtab_nmodes;
+	else
+		selmon->showtab = (selmon->showtab + 1 ) % showtab_nmodes;
+	arrange(selmon);
+}
+
 // switch first client in stack (sel<->first)
 void zoom(const Arg* arg) {
   Client* c = selmon->sel;
@@ -468,6 +476,20 @@ void killclient(const Arg* arg) {
     XSync(dpy, False);
     XSetErrorHandler(xerror);
     XUngrabServer(dpy);
+  }
+}
+
+// focus a window
+void focuswin(const Arg* arg) {
+  int     iwin = arg->i;
+  Client* c    = NULL;
+  for (c = selmon->clients; c && (iwin || !ISVISIBLE(c)); c = c->next) {
+    if (ISVISIBLE(c))
+      --iwin;
+  };
+  if (c) {
+    focus(c);
+    restack(selmon);
   }
 }
 

@@ -181,12 +181,14 @@ void propertynotify(XEvent* e) {
     case XA_WM_HINTS:
       updatewmhints(c);
       drawbars();
+      drawtabs();
       break;
     }
     if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]) {
       updatetitle(c);
       if (c == c->mon->sel)
         drawbar(c->mon);
+      drawtab(c->mon);
     }
     if (ev->atom == netatom[NetWMWindowType])
       updatewindowtype(c);
@@ -385,7 +387,7 @@ Monitor* wintomon(Window w) {
   if (w == root && getrootptr(&x, &y))
     return recttomon(x, y, 1, 1);
   for (m = mons; m; m = m->next)
-    if (w == m->barwin)
+    if (w == m->barwin || w == m->tabwin)
       return m;
   if ((c = wintoclient(w)))
     return c->mon;

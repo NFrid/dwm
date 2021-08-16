@@ -25,6 +25,7 @@ void setup(void) {
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h * barspacing_font + 2 * barspacing;
   bh    = drw->fonts->h + 2 * barmargins; // TODO: add setting to set paddings
+  th    = bh;
   updategeom();
 
   // init atoms
@@ -111,7 +112,10 @@ Monitor* createmon(void) {
   m->mfact                    = mfact;
   m->nmaster                  = nmaster;
   m->showbar                  = showbar;
+  m->showtab                  = showtab;
   m->topbar                   = topbar;
+  m->toptab                   = toptab;
+  m->ntabs                    = 0;
   m->lt[0]                    = &layouts[0];
   m->lt[1]                    = &layouts[1 % LENGTH(layouts)];
   strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);

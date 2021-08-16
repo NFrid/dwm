@@ -53,7 +53,7 @@ struct Pertag {
   float         mfacts[LENGTH(tags) + 1];    // mfacts per tag
   unsigned int  sellts[LENGTH(tags) + 1];    // selected layouts
   const Layout* ltidxs[LENGTH(tags) + 1][2]; // matrix of tags and layouts indexes
-  int           showbars[LENGTH(tags) + 1];  // display bar for the current tag
+  Bool          showbars[LENGTH(tags) + 1];  // display bar for the current tag
 };
 
 // compile-time check if all tags fit into an unsigned int bit array.
@@ -69,6 +69,7 @@ static char       stext[1024];         // text in a statusbar
 static int        screen;
 static int        sw, sh;      // X display screen geometry
 static int        bh, blw = 0; // bar geometry
+static int        th      = 0; // tab bar geometry
 static int        lrpad;       // sum of left and right padding for text
 static int (*xerrorxlib)(Display*, XErrorEvent*);
 static unsigned int numlockmask = 0;

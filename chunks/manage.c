@@ -119,6 +119,8 @@ void arrange(Monitor* m) {
 
 // arrange monitor
 void arrangemon(Monitor* m) {
+  updatebarpos(m);
+  XMoveResizeWindow(dpy, m->tabwin, m->wx, m->ty, m->ww, th);
   strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
   if (m->lt[m->sellt]->arrange)
     m->lt[m->sellt]->arrange(m);
@@ -184,6 +186,7 @@ void focus(Client* c) {
   }
   selmon->sel = c;
   drawbars();
+  drawtabs();
 }
 
 // get client's wm state
@@ -353,6 +356,7 @@ void restack(Monitor* m) {
   XWindowChanges wc;
 
   drawbar(m);
+  drawtab(m);
   if (!m->sel)
     return;
   if (m->sel->isfloating || !m->lt[m->sellt]->arrange)

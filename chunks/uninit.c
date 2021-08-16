@@ -10,7 +10,7 @@ void cleanup(void) {
   selmon->lt[selmon->sellt] = &foo;
   for (m = mons; m; m = m->next)
     while (m->stack)
-      unmanage(m->stack, 0);
+      unmanage(m->stack, False);
   XUngrabKey(dpy, AnyKey, AnyModifier, root);
   while (mons)
     cleanupmon(mons);
@@ -43,5 +43,7 @@ void cleanupmon(Monitor* mon) {
   }
   XUnmapWindow(dpy, mon->barwin);
   XDestroyWindow(dpy, mon->barwin);
+  XUnmapWindow(dpy, mon->tabwin);
+  XDestroyWindow(dpy, mon->tabwin);
   free(mon);
 }

@@ -70,6 +70,7 @@ enum { WMProtocols,
   WMLast }; /* default atoms */
 
 enum { ClkTagBar,
+  ClkTabBar,
   ClkLtSymbol,
   ClkStatusText,
   ClkWinTitle,
@@ -126,28 +127,36 @@ typedef struct {
   void (*arrange)(Monitor*);
 } Layout;
 
+#define MAXTABS 50
+
 typedef struct Pertag Pertag; // Pertag
 
 struct Monitor {
-  char          ltsymbol[16];   // symbolic representation of layout
-  float         mfact;          // ratio factor of layout
-  int           nmaster;        // number of masters
-  int           num;            // number (id)
-  int           by;             // bar geometry
-  int           mx, my, mw, mh; // screen size
-  int           wx, wy, ww, wh; // window area
-  unsigned int  seltags;        // selected tags
-  unsigned int  sellt;          // selected layout
-  unsigned int  tagset[2];      // set of tags for the monitor
-  int           showbar;        // 0 means no bar
-  int           topbar;         // 0 means bottom bar
-  Client*       clients;        // clients on this monitor
-  Client*       sel;            // selected client
-  Client*       stack;          // current stack of clients
-  Monitor*      next;           // pointer to next monitor
-  Window        barwin;         // window of the native bar
-  const Layout* lt[2];          // layouts
-  Pertag*       pertag;         // separated parameters (e.g. layout) per tag
+  char          ltsymbol[16];        // symbolic representation of layout
+  float         mfact;               // ratio factor of layout
+  int           nmaster;             // number of masters
+  int           num;                 // number (id)
+  int           by;                  // bar geometry
+  int           ty;                  // tab bar geometry
+  int           mx, my, mw, mh;      // screen size
+  int           wx, wy, ww, wh;      // window area
+  unsigned int  seltags;             // selected tags
+  unsigned int  sellt;               // selected layout
+  unsigned int  tagset[2];           // set of tags for the monitor
+  int           showbar;             // 0 means no bar
+  int           showtab;             // 0 means no tab bar
+  int           topbar;              // 0 means bottom bar
+  int           toptab;              // 0 means bottom tab bar
+  Client*       clients;             // clients on this monitor
+  Client*       sel;                 // selected client
+  Client*       stack;               // current stack of clients
+  Monitor*      next;                // pointer to next monitor
+  Window        barwin;              // window of the native bar
+  Window        tabwin;              // window of the tab bar
+  unsigned int  ntabs;               // number of tab bars
+  int           tab_widths[MAXTABS]; // width of tab bars
+  const Layout* lt[2];               // layouts
+  Pertag*       pertag;              // separated parameters (e.g. layout) per tag
 };
 
 typedef struct {
@@ -260,6 +269,8 @@ static void     updatesizehints(Client* c);
 
 static void         drawbar(Monitor* m);
 static void         drawbars(void);
+static void         drawtab(Monitor* m);
+static void         drawtabs(void);
 static void         updatebars(void);
 static void         updatebarpos(Monitor* m);
 static void         resizebarwin(Monitor* m);
@@ -287,6 +298,7 @@ static void toggleall(const Arg* arg);
 static void toggleview(const Arg* arg);
 static void tag(const Arg* arg);
 static void toggletag(const Arg* arg);
+static void tabmode(const Arg* arg);
 static void tagmon(const Arg* arg);
 static void togglefloating(const Arg* arg);
 static void togglesticky(const Arg* arg);
@@ -303,6 +315,7 @@ static void setmfact(const Arg* arg);
 static void shiftviewclients(const Arg* arg);
 static void incnmaster(const Arg* arg);
 static void killclient(const Arg* arg);
+static void focuswin(const Arg* arg);
 static void focusmon(const Arg* arg);
 static void focusstack(const Arg* arg);
 

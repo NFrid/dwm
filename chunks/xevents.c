@@ -1,7 +1,6 @@
 // ConfigureNotify event handler
 void configurenotify(XEvent* e) {
   Monitor*         m;
-  Client*          c;
   XConfigureEvent* ev = &e->xconfigure;
   int              dirty;
 
@@ -14,14 +13,12 @@ void configurenotify(XEvent* e) {
       drw_resize(drw, sw, bh);
       updatebars();
       for (m = mons; m; m = m->next) {
-        for (c = m->clients; c; c = c->next)
-          if (c->isfullscreen)
-            resizeclient(c, m->mx, m->my, m->mw, m->mh);
-        resizebarwin(m);
+        XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, m->ww, bh);
       }
-      focus(NULL);
-      arrange(NULL);
+      resizebarwin(m);
     }
+    focus(NULL);
+    arrange(NULL);
   }
 }
 
@@ -139,6 +136,25 @@ void buttonpress(XEvent* e) {
       click = ClkStatusText;
     else
       click = ClkWinTitle;
+  }
+  if (ev->window == selmon->tabwin) {
+    i = 0;
+    x = 0;
+    for (c = selmon->clients; c; c = c->next) {
+      if (!ISVISIBLE(c))
+        continue;
+      x += selmon->tab_widths[i];
+      if (ev->x > x)
+        ++i;
+      else
+        break;
+      if (i >= m->ntabs)
+        break;
+    }
+    if (c) {
+      click  = ClkTabBar;
+      arg.ui = i;
+    }
   } else if ((c = wintoclient(ev->window))) {
     focus(c);
     restack(selmon);
@@ -148,7 +164,10 @@ void buttonpress(XEvent* e) {
   for (i = 0; i < LENGTH(buttons); i++)
     if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
         && CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
-      buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
+      buttons[i].func(((click == ClkTagBar || click == ClkTabBar)
+                          && buttons[i].arg.i == 0)
+                          ? &arg
+                          : &buttons[i].arg);
 }
 
 // handle client messages
@@ -157,6 +176,7 @@ void clientmessage(XEvent* e) {
   XSetWindowAttributes swa;
   XClientMessageEvent* cme = &e->xclient;
   Client*              c   = wintoclient(cme->window);
+  int                  i;
 
   // handle systray icon clients
   if (showsystray && cme->window == systray->win && cme->message_type == netatom[NetSystemTrayOP]) {
@@ -249,6 +269,7 @@ void expose(XEvent* e) {
 
   if (ev->count == 0 && (m = wintomon(ev->window))) {
     drawbar(m);
+    drawtab(m);
     if (m == selmon)
       updatesystray();
   }
@@ -299,7 +320,7 @@ void motionnotify(XEvent* e) {
   if (ev->window != root)
     return;
   if ((m = recttomon(ev->x_root, ev->y_root, 1, 1)) != mon && mon) {
-    unfocus(selmon->sel, 1);
+    unfocus(selmon->sel, True);
     selmon = m;
     focus(NULL);
   }
