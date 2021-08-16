@@ -10,7 +10,7 @@ void drawbar(Monitor* m) {
     stw = getsystraywidth();
 
   // draw status first so it can be overdrawn by tags later
-  if (m == selmon) { // status is only drawn on selected monitor
+  if (m == selmon || 1) { // draw status on every monitor
     tw = m->ww - drawstatusbar(m, bh, stext, stw);
   }
 
@@ -260,9 +260,11 @@ int drawstatusbar(Monitor* m, int bh, char* stext, int stw) {
 
 // update status in bar
 void updatestatus(void) {
+  Monitor* m;
   if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
     strcpy(stext, "dwm");
-  drawbar(selmon);
+  for (m = mons; m; m = m->next)
+    drawbar(m);
   updatesystray();
 }
 
