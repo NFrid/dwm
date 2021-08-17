@@ -19,11 +19,11 @@ static const int showbar     = 1; // 0 means no bar
 static const int topbar      = 1; // 0 means bottom bar
 
 enum showtab_modes { showtab_never,
-  showtab_auto,
+  showtab_always,
   showtab_nmodes,
-  showtab_always };
+  showtab_auto };
 static const int  showtab = showtab_never; /* Default tab bar show mode */
-static const Bool toptab  = True;          /* False means bottom tab bar */
+static const Bool toptab  = False;         /* False means bottom tab bar */
 
 static const unsigned int barmargins      = 1; // vertical margins for bar
 static const unsigned int barspacing      = 0; // spacing between bar elements
@@ -33,12 +33,13 @@ static const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji", "So
 static const char  col_gray1[] = "#f8f8f2";
 static const char  col_gray2[] = "#282a36";
 static const char  col_gray3[] = "#44475a";
-static const char  col_dead[]  = "#6272A4";
+static const char  col_black[] = "#21222C";
+static const char  col_com[]   = "#6272A4";
 static const char  col_pink[]  = "#ff79c6";
 static const char* colors[][3] = {
   //               fg         bg         border
   [SchemeNorm] = { col_gray1, col_gray2, col_gray2 }, // client's default
-  [SchemeInv]  = { col_dead, col_gray2, col_dead },   // for unselected mon
+  [SchemeInv]  = { col_com, col_black, col_gray2 },   // for unselected mon
   [SchemeSel]  = { col_gray1, col_gray3, col_pink },  // for selected client
 };
 

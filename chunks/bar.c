@@ -46,7 +46,7 @@ void drawbar(Monitor* m) {
       if (m->sel->issticky)
         drw_polygon(drw, x + boxs, m->sel->isfloating ? boxs * 2 + boxw : boxs, stickyiconbb.x, stickyiconbb.y, boxw, boxw * stickyiconbb.y / stickyiconbb.x, stickyicon, LENGTH(stickyicon), Nonconvex, m->sel->tags & m->tagset[m->seltags]);
     } else {
-      drw_setscheme(drw, scheme[SchemeNorm]);
+      drw_setscheme(drw, scheme[m == selmon ? SchemeNorm : SchemeInv]);
       drw_rect(drw, x, 0, w, bh, 1, 1);
     }
   }
