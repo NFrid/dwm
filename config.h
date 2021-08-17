@@ -30,17 +30,18 @@ static const unsigned int barspacing      = 0; // spacing between bar elements
 static const unsigned int barspacing_font = 1; // spacing in font widths
 
 static const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji", "Source Han Sans JP" };
-static const char  col_gray1[] = "#f8f8f2";
-static const char  col_gray2[] = "#282a36";
-static const char  col_gray3[] = "#44475a";
+static const char  col_white[] = "#f8f8f2";
+static const char  col_gray1[] = "#282a36";
+static const char  col_gray2[] = "#44475a";
 static const char  col_black[] = "#21222C";
 static const char  col_com[]   = "#6272A4";
 static const char  col_pink[]  = "#ff79c6";
 static const char* colors[][3] = {
   //               fg         bg         border
-  [SchemeNorm] = { col_gray1, col_gray2, col_gray2 }, // client's default
-  [SchemeInv]  = { col_com, col_black, col_gray2 },   // for unselected mon
-  [SchemeSel]  = { col_gray1, col_gray3, col_pink },  // for selected client
+  [SchemeNorm] = { col_white, col_gray1, col_gray1 }, // client's default
+  [SchemeDark] = { col_white, col_black, col_gray1 }, // for unselected mon
+  [SchemeInv]  = { col_com, col_black, col_gray1 },   // for unselected mon
+  [SchemeSel]  = { col_white, col_gray2, col_pink },  // for selected client
 };
 
 static const XPoint stickyicon[] = { { 0, 0 }, { 4, 0 }, { 4, 8 }, { 2, 6 }, { 0, 8 }, { 0, 0 } }; // represents the icon as an array of vertices

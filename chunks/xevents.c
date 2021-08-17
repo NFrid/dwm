@@ -176,7 +176,6 @@ void clientmessage(XEvent* e) {
   XSetWindowAttributes swa;
   XClientMessageEvent* cme = &e->xclient;
   Client*              c   = wintoclient(cme->window);
-  int                  i;
 
   // handle systray icon clients
   if (showsystray && cme->window == systray->win && cme->message_type == netatom[NetSystemTrayOP]) {

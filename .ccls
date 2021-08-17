@@ -5,4 +5,5 @@ gcc
 --include=dwm.h
 --include=dwm.c
 --include=drw.h
+%h -x c-header
 %c --include=config.h

@@ -29,12 +29,13 @@ void drawbar(Monitor* m) {
 
     w = TEXTW(tags[i]);
 
-    drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+    drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : m == selmon ? SchemeNorm
+                                                                                       : SchemeDark]);
     drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
     x += w;
   }
   w = blw = TEXTW(m->ltsymbol);
-  drw_setscheme(drw, scheme[SchemeNorm]);
+  drw_setscheme(drw, scheme[m == selmon ? SchemeNorm : SchemeDark]);
   x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
   if ((w = m->ww - tw - x) > bh) {
@@ -307,8 +308,10 @@ int drawstatusbar(Monitor* m, int bh, char* stext, int stw) {
   ret = x = m->ww - w - stw;
 
   drw_setscheme(drw, scheme[LENGTH(colors)]);
-  drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
-  drw->scheme[ColBg] = scheme[SchemeNorm][ColBg];
+  Clr *scheme_ = scheme[m == selmon ? SchemeNorm : SchemeDark];
+
+  drw->scheme[ColFg] = scheme_[ColFg];
+  drw->scheme[ColBg] = scheme_[ColBg];
   drw_rect(drw, x, 0, w, bh, 1, 1);
   x++;
 
@@ -339,8 +342,8 @@ int drawstatusbar(Monitor* m, int bh, char* stext, int stw) {
           drw_clr_create(drw, &drw->scheme[ColBg], buf);
           i += 7;
         } else if (text[i] == 'd') {
-          drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
-          drw->scheme[ColBg] = scheme[SchemeNorm][ColBg];
+          drw->scheme[ColFg] = scheme_[ColFg];
+          drw->scheme[ColBg] = scheme_[ColBg];
         } else if (text[i] == 'w') {
           Clr swp;
           swp                = drw->scheme[ColFg];

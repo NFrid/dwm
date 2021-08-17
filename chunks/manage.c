@@ -386,7 +386,6 @@ void sendmon(Client* c, Monitor* m) {
   c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
   attach(c);
   attachstack(c);
-  selmon = m;
   focus(NULL);
   arrange(NULL);
 }
