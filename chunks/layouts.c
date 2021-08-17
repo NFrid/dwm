@@ -1,3 +1,4 @@
+/*
 // bottom stack layout
 static void bstack(Monitor* m) {
   int          w, h, mh, mx, tx, ty, tw;
@@ -30,6 +31,7 @@ static void bstack(Monitor* m) {
     }
   }
 }
+*/
 
 // tile layout (canonical)
 void tile(Monitor* m) {

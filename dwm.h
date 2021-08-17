@@ -288,7 +288,7 @@ static void         removesystrayicon(Client* i);
 // layouts
 
 static void tile(Monitor*);
-static void bstack(Monitor* m);
+/* static void bstack(Monitor* m); */
 static void monocle(Monitor* m);
 
 // actions
