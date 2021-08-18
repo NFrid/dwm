@@ -516,7 +516,7 @@ void updatesystray(void) {
   XSync(dpy, False);
 }
 
-// TODO: figure out wtf is this
+// gets a systray icon client from its window
 Client* wintosystrayicon(Window w) {
   Client* i = NULL;
 
