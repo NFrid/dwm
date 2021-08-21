@@ -64,7 +64,7 @@ static const PertagRule pertagrules[] = {
 static const Rule rules[] = {
   // clang-format off
 //* class                 instance  title   tags mask   isfloating  monitor
-  { "mpv",                NULL,     NULL,   1,          0,         -1 },
+  { "mpv",                NULL,     NULL,   1,          0,          0 },
 
   { "Alacritty", NULL, "sys:1:journal - \"btm\"", 1,    0,          1 },
   { "Alacritty", NULL, "sys:1:journal - \"journalctl -f\"", 1, 0,   1 },

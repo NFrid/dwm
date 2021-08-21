@@ -156,15 +156,18 @@ void togglefullscr(const Arg* arg) {
 
 // focus urgent item and its tag
 static void focusurgent(const Arg* arg) {
+  Monitor* m;
   Client* c;
   int     i;
-  for (c = selmon->clients; c && !c->isurgent; c = c->next)
-    ;
+  for (m = selmon; m; m = m->next)
+    for (c = m->clients; c && !c->isurgent; c = c->next)
+      ;
   if (c) {
     for (i = 0; i < LENGTH(tags) && !((1 << i) & c->tags); i++)
       ;
     if (i < LENGTH(tags)) {
       const Arg a = { .ui = 1 << i };
+      selmon = c->mon;
       view(&a);
       focus(c);
     }
