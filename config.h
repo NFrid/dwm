@@ -66,8 +66,7 @@ static const Rule rules[] = {
 //* class                 instance  title   tags mask   isfloating  monitor
   { "mpv",                NULL,     NULL,   1,          0,          0 },
 
-  { "Alacritty", NULL, "sys:1:journal - \"btm\"", 1,    0,          1 },
-  { "Alacritty", NULL, "sys:1:journal - \"journalctl -f\"", 1, 0,   1 },
+  { "Alacritty",          NULL,     "sys:", 1,          0,          1 },
 
   { "discord",            NULL,     NULL,   1 << 2,     0,          1 },
   { "TelegramDesktop",    NULL,     NULL,   1 << 2,     0,          1 },
@@ -77,7 +76,7 @@ static const Rule rules[] = {
   { "zoom",               NULL,     NULL,   1 << 4,     0,         -1 },
 
   { "code-oss",           NULL,     NULL,   1 << 6,     0,          0 },
-  { "jetbrains-webstorm", NULL,     NULL,   1 << 6,     0,          0 },
+  { "jetbrains-",         NULL,     NULL,   1 << 6,     0,          0 },
 
   { "sxiv",               NULL,     NULL,   0,          0,         -1 },
   { "Zathura",            NULL,     NULL,   0,          0,         -1 },
