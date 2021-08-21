@@ -54,30 +54,37 @@ static const char* tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 static const PertagRule pertagrules[] = {
   // clang-format off
 //* tag, layout, mfact
-  { 2,    1,      -1 }
-  /* { 6,    2,      0.85 } */
+  { 2,   1,      -1 },
+  { 4,   0,      .5 },
+  { 5,   1,      -1 },
   // clang-format on
 };
 
 // specific defaults for specific clients
 static const Rule rules[] = {
   // clang-format off
-//* class               instance  title   tags mask   isfloating  monitor
-  { "mpv",              NULL,     NULL,   1,          0,          -1 },
+//* class                 instance  title   tags mask   isfloating  monitor
+  { "mpv",                NULL,     NULL,   1,          0,         -1 },
 
-  { "discord",          NULL,     NULL,   1 << 2,     0,          -1 },
-  { "TelegramDesktop",  NULL,     NULL,   1 << 2,     0,          -1 },
-  { "VK",               NULL,     NULL,   1 << 2,     0,          -1 },
-  { "Element",          NULL,     NULL,   1 << 2,     0,          -1 },
+  { "Alacritty", NULL, "sys:1:journal - \"btm\"", 1,    0,          1 },
+  { "Alacritty", NULL, "sys:1:journal - \"journalctl -f\"", 1, 0,   1 },
 
-  { "zoom",             NULL,     NULL,   1 << 4,     0,          -1 },
+  { "discord",            NULL,     NULL,   1 << 2,     0,          1 },
+  { "TelegramDesktop",    NULL,     NULL,   1 << 2,     0,          1 },
+  { "VK",                 NULL,     NULL,   1 << 2,     0,          1 },
+  { "Element",            NULL,     NULL,   1 << 2,     0,          1 },
 
-  /* { "code-oss",         NULL,     NULL,   1 << 6,     0,          -1 }, */
+  { "zoom",               NULL,     NULL,   1 << 4,     0,         -1 },
 
-  { "sxiv",             NULL,     NULL,   0,          0,          -1 },
-  { "Zathura",          NULL,     NULL,   0,          0,          -1 },
+  { "code-oss",           NULL,     NULL,   1 << 6,     0,          0 },
+  { "jetbrains-webstorm", NULL,     NULL,   1 << 6,     0,          0 },
 
-  { "Crow Translate",   NULL,     NULL,   0,          1,          -1 },
+  { "sxiv",               NULL,     NULL,   0,          0,         -1 },
+  { "Zathura",            NULL,     NULL,   0,          0,         -1 },
+
+  { "Crow Translate",     NULL,     NULL,   0,          1,         -1 },
+
+  { "obs",                NULL,     NULL,   1 << 8,     0,          1 },
   // clang-format on
 };
 
