@@ -1,5 +1,7 @@
 #ifndef DRW_H_
+#ifndef CCLS
 #define DRW_H_
+#endif
 
 // cursor
 typedef struct {

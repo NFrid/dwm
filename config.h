@@ -1,7 +1,9 @@
 // See LICENSE file for copyright and license details.
 
 #ifndef CONFIG_H_
+#ifndef CCLS
 #define CONFIG_H_
+#endif
 
 /* ------------------------------- appearance ------------------------------- */
 
