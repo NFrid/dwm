@@ -58,7 +58,7 @@ static const PertagRule pertagrules[] = {
 //* tag, layout, mfact
   { 2,   1,      -1 },
   { 4,   0,      .5 },
-  { 5,   1,      -1 },
+  { 6,   1,      -1 },
   // clang-format on
 };
 
@@ -75,7 +75,7 @@ static const Rule rules[] = {
   { "VK",                 NULL,     NULL,   1 << 2,     0,          1 },
   { "Element",            NULL,     NULL,   1 << 2,     0,          1 },
 
-  { "zoom",               NULL,     NULL,   1 << 4,     0,         -1 },
+  { "zoom",               NULL,     NULL,   1 << 4,     0,          1 },
 
   { "code-oss",           NULL,     NULL,   1 << 6,     0,          0 },
   { "jetbrains-",         NULL,     NULL,   1 << 6,     0,          0 },
