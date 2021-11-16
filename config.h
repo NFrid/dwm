@@ -1,9 +1,9 @@
 // See LICENSE file for copyright and license details.
 
 #ifndef CONFIG_H_
-#ifndef CCLS
 #define CONFIG_H_
-#endif
+
+#include "nwm.h"
 
 /* ------------------------------- appearance ------------------------------- */
 
@@ -20,10 +20,12 @@ static const int showsystray = 1; // 0 means no systray
 static const int showbar     = 1; // 0 means no bar
 static const int topbar      = 1; // 0 means bottom bar
 
-enum showtab_modes { showtab_never,
-  showtab_always,
+enum showtab_modes {
+  showtab_auto,
+  showtab_never,
   showtab_nmodes,
-  showtab_auto };
+  showtab_always
+};
 static const int  showtab = showtab_never; /* Default tab bar show mode */
 static const Bool toptab  = False;         /* False means bottom tab bar */
 

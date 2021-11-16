@@ -1,30 +1,30 @@
-# dwm - dynamic window manager
+# nwm - undefined window manager
 # See LICENSE file for copyright and license details.
 
 include config.mk
 
-SRC = drw.c dwm.c util.c
+SRC = drw.c nwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: dwm
+all: nwm clean
 
 %.o: %.c
 	${CC} -c ${CFLAGS} $<
 
 ${OBJ}: config.h config.mk
 
-dwm: ${OBJ}
+nwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -rf dwm ${OBJ}
+	rm -rf nwm ${OBJ}
 
 install: all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f dwm ${DESTDIR}${PREFIX}/bin
-	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
+	cp -f nwm ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/nwm
 
 uninstall:
-	rm -f ${DESTDIR}${PREFIX}/bin/dwm
+	rm -f ${DESTDIR}${PREFIX}/bin/nwm
 
 .PHONY: all clean install uninstall

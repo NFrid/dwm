@@ -97,10 +97,10 @@ static Fnt* xfont_create(Drw* drw, const char* fontname, FcPattern* fontpattern)
 
   if (fontname) {
     /* Using the pattern found at font->xfont->pattern does not yield the
-		 * same substitution results as using the pattern returned by
-		 * FcNameParse; using the latter results in the desired fallback
-		 * behaviour whereas the former just results in missing-character
-		 * rectangles being drawn, at least with some fonts. */
+     * same substitution results as using the pattern returned by
+     * FcNameParse; using the latter results in the desired fallback
+     * behaviour whereas the former just results in missing-character
+     * rectangles being drawn, at least with some fonts. */
     if (!(xfont = XftFontOpenName(drw->dpy, drw->screen, fontname))) {
       fprintf(stderr, "error, cannot load font from name: '%s'\n", fontname);
       return NULL;
@@ -119,18 +119,20 @@ static Fnt* xfont_create(Drw* drw, const char* fontname, FcPattern* fontpattern)
     die("no font specified.");
   }
 
+#ifndef LIBXFT
   /* Do not allow using color fonts. This is a workaround for a BadLength
-	 * error from Xft with color glyphs. Modelled on the Xterm workaround. See
-	 * https://bugzilla.redhat.com/show_bug.cgi?id=1498269
-	 * https://lists.suckless.org/dev/1701/30932.html
-	 * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=916349
-	 * and lots more all over the internet.
-	 */
-  /*FcBool iscol;
-	if(FcPatternGetBool(xfont->pattern, FC_COLOR, 0, &iscol) == FcResultMatch && iscol) {
-		XftFontClose(drw->dpy, xfont);
-		return NULL;
-	}*/
+   * error from Xft with color glyphs. Modelled on the Xterm workaround. See
+   * https://bugzilla.redhat.com/show_bug.cgi?id=1498269
+   * https://lists.suckless.org/dev/1701/30932.html
+   * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=916349
+   * and lots more all over the internet.
+   */
+  FcBool iscol;
+  if (FcPatternGetBool(xfont->pattern, FC_COLOR, 0, &iscol) == FcResultMatch && iscol) {
+    XftFontClose(drw->dpy, xfont);
+    return NULL;
+  }
+#endif
 
   font          = ecalloc(1, sizeof(Fnt));
   font->xfont   = xfont;
@@ -234,7 +236,7 @@ void drw_polygon(Drw* drw, int x, int y, int ow, int oh, int sw, int sh, const X
   for (int v = 0; v < npoints; v++)
     scaledpoints[v] = (XPoint) { .x = points[v].x * sw / ow + x, .y = points[v].y * sh / oh + y };
   if (filled)
-    XFillPolygon(drw->dpy, drw->drawable, drw->gc, scaledpoints, npoints, shape, CoordModeOrigin); /* Change shape to 'Convex' or 'Complex' in dwm.c if the shape is not 'Nonconvex' */
+    XFillPolygon(drw->dpy, drw->drawable, drw->gc, scaledpoints, npoints, shape, CoordModeOrigin); /* Change shape to 'Convex' or 'Complex' if the shape is not 'Nonconvex' */
   else
     XDrawLines(drw->dpy, drw->drawable, drw->gc, scaledpoints, npoints, CoordModeOrigin);
 }
@@ -326,7 +328,7 @@ int drw_text(Drw* drw, int x, int y, unsigned int w, unsigned int h, unsigned in
       usedfont   = nextfont;
     } else {
       /* Regardless of whether or not a fallback font is found, the
-			 * character must be drawn. */
+       * character must be drawn. */
       charexists = 1;
 
       fccharset = FcCharSetCreate();

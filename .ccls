@@ -3,8 +3,5 @@ gcc
 -Wextra
 -pedantic
 -DXINERAMA
+-DLIBXFT
 -DCCLS
---include=dwm.h
---include=dwm.c
---include=drw.h
-%c --include=config.h

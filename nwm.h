@@ -1,5 +1,30 @@
-#ifndef DWM_H_
-#define DWM_H_
+#ifndef NWM_H_
+#define NWM_H_
+
+#ifdef XINERAMA
+#include <X11/extensions/Xinerama.h>
+#endif // XINERAMA
+
+#include <X11/Xatom.h>
+#include <X11/Xft/Xft.h>
+#include <X11/Xlib.h>
+#include <X11/Xproto.h>
+#include <X11/Xutil.h>
+#include <X11/cursorfont.h>
+#include <X11/keysym.h>
+#include <errno.h>
+#include <locale.h>
+#include <signal.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+#include "drw.h"
+#include "util.h"
 
 /* --------------------------------- macros --------------------------------- */
 
@@ -341,4 +366,4 @@ static void (*handler[LASTEvent])(XEvent*) = {
   [UnmapNotify]      = unmapnotify
 };
 
-#endif // DWM_H_
+#endif // NWM_H_

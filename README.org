@@ -1,0 +1,87 @@
+* nwm - undefined window manager
+[[./nwm.png]]
+
+nwm is an extremely fast, small and simple dynamic window manager for X11.
+
+** The fork of dwm
+This beauty is based on [[https://dwm.suckless.org/][dwm]] - dynamic window manager by suckless devs.
+
+I did a lot of patches and tweaks, a lot of refactoring and now it doesn't look similar enough to have the same name.
+
+*** TODO Changes in my fork
+It's been a while...
+
+idk you'll figure out if you're smart enough.
+
+*** Your code style sucks!!
+no u
+
+**** Use suckless-like code style
+no cuz it sucks
+
+**** Use tabs or at least 4/8/16/32/64/128 spaces
+no.
+
+I like 2 spaces indentation. I think everyone should prefer 2 spaces indentation. Tabs are bad. No argue.
+
+Readability is not about indentation - it's about good code with empty lines, comments and consistent style.
+
+*** I think your fork is bad because...
+You can just fork it and make it "better"
+
+Also you can try and PR your changes, but I don't usually agree with other people.
+
+If forking it doesn't suit you - cry about it.
+
+** Requirements
+=Xlib= header files, =libxft-bgra= (or disable its support in ~config.mk~).
+
+** Installation
+Edit ~config.mk~ to match your local setup.
+
+Edit ~config.h~ to configure some of the aspects of your build.
+
+Enter the following command to build and install nwm:
+
+#+begin_src sh
+sudo make install
+#+end_src
+
+** Running nwm
+Add the following line to your ~.xinitrc~ to start nwm using =startx=:
+
+#+begin_src sh
+exec nwm
+#+end_src
+
+In order to connect nwm to a specific display, make sure that
+the =DISPLAY= environment variable is set correctly, e.g.:
+
+#+begin_src sh
+DISPLAY=foo.bar:1 exec nwm
+#+end_src
+
+(This will start nwm on display =:1= of the host =foo.bar=.)
+
+In order to display something in the bar, you should set your root window
+name, e.g.:
+
+#+begin_src sh
+xsetroot -name "something"
+#+end_src
+
+You should use some script to make it dynamic. You can use [[https://github.com/NFrid/rootblocks][rootblocks]].
+
+*** My "startnwm script"
+=fehbg= is a script for wallpaper render, =autostart= is for starting programs
+need to start excluding those that are already running.
+
+#+begin_src sh
+#!/bin/sh
+
+while true; do
+  fehbg &
+  autostart &
+  nwm 2> ~/.nwm.log
+done
+#+end_src
