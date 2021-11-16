@@ -1,8 +1,4 @@
 /* See LICENSE file for copyright and license details. */
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "util.h"
 
@@ -31,6 +27,19 @@ void die(const char* fmt, ...) {
   }
 
   exit(1);
+}
+
+// throw a message and die w/ success 🗿
+void die_happy(const char* fmt, ...) {
+  va_list ap;
+
+  va_start(ap, fmt);
+  vfprintf(stdout, fmt, ap);
+  va_end(ap);
+
+  fputc('\n', stdout);
+
+  exit(0);
 }
 
 // count number of ones in binary representation

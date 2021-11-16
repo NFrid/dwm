@@ -60,7 +60,7 @@ static Window   wmcheckwin;       // window for NetWMCheck
 
 int main(int argc, char* argv[]) {
   if (argc == 2 && !strcmp("-v", argv[1]))
-    die("nwm");
+    die_happy("nwm v0.9.999.99999");
   else if (argc != 1)
     die("usage: nwm [-v]");
 
