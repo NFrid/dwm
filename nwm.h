@@ -5,6 +5,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif // XINERAMA
 
+#include <X11/XKBlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xft/Xft.h>
 #include <X11/Xlib.h>

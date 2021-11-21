@@ -1,6 +1,6 @@
-gcc
+cc
+-std=c99
 -Wall
--Wextra
 -pedantic
 -DXINERAMA
 -DLIBXFT

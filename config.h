@@ -24,10 +24,10 @@ enum showtab_modes {
   showtab_auto,
   showtab_never,
   showtab_nmodes,
-  showtab_always
+  showtab_always,
 };
-static const int  showtab = showtab_never; /* Default tab bar show mode */
-static const Bool toptab  = False;         /* False means bottom tab bar */
+static const int  showtab = showtab_auto; /* Default tab bar show mode */
+static const Bool toptab  = False;        /* False means bottom tab bar */
 
 static const unsigned int barmargins      = 1; // vertical margins for bar
 static const unsigned int barspacing      = 0; // spacing between bar elements

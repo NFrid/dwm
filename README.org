@@ -4,14 +4,24 @@
 nwm is an extremely fast, small and simple dynamic window manager for X11.
 
 ** The fork of dwm
-This beauty is based on [[https://dwm.suckless.org/][dwm]] - dynamic window manager by suckless devs.
+This beauty's based on [[https://dwm.suckless.org/][dwm]] - dynamic window manager by suckless devs.
 
 I did a lot of patches and tweaks, a lot of refactoring and now it doesn't look similar enough to have the same name.
 
 *** TODO Changes in my fork
 It's been a while...
 
-idk you'll figure out if you're smart enough.
+There are things I remember implementing/tweaking/patching:
++ pertag stuff
++ gaps
++ tabs (tab bar for clients in monocle mode like tabbed)
++ temporary show all tags mode
++ colorscheme for inactive monitor's bar
++ sticky
++ urgent + fix for multimon
++ other bugfixes & tweaks idk??
+
+you'll figure out other from source code if you're smart enough.
 
 *** Your code style sucks!!
 no u
