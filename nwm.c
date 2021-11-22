@@ -14,6 +14,7 @@
 #include "core.h"
 #include "drw.h"
 #include "util.h"
+#include "variables.h"
 
 /* -------------------------------- variables ------------------------------- */
 

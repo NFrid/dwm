@@ -83,14 +83,12 @@ xsetroot -name "something"
 You should use some script to make it dynamic. You can use [[https://github.com/NFrid/rootblocks][rootblocks]].
 
 *** My "startnwm script"
-=fehbg= is a script for wallpaper render, =autostart= is for starting programs
-need to start excluding those that are already running.
+=autostart= is a script for starting programs need to start excluding those that are already running.
 
 #+begin_src sh
 #!/bin/sh
 
 while true; do
-  fehbg &
   autostart &
   nwm 2> ~/.nwm.log
 done
