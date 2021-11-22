@@ -3,7 +3,7 @@
 
 include config.mk
 
-SRC = drw.c nwm.c util.c
+SRC = $(wildcard *.c)
 OBJ = ${SRC:.c=.o}
 
 all: nwm

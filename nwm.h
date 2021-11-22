@@ -24,13 +24,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "drw.h"
-#include "util.h"
-
 /* --------------------------------- macros --------------------------------- */
 
 #define BUTTONMASK               (ButtonPressMask | ButtonReleaseMask)
-#define CLEANMASK(mask)          (mask & ~(numlockmask | LockMask) & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask))
 #define INTERSECT(x, y, w, h, m) (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) \
                                   * MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
 #define ISVISIBLE(C) ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
@@ -38,7 +34,7 @@
 #define MOUSEMASK    (BUTTONMASK | PointerMotionMask)
 #define WIDTH(X)     ((X)->w + 2 * (X)->bw + gappx)
 #define HEIGHT(X)    ((X)->h + 2 * (X)->bw + gappx)
-#define TAGMASK      ((1 << LENGTH(tags)) - 1)
+#define TAGMASK      ((1 << TAGS_N) - 1)
 #define TEXTW(X)     (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 #define SYSTEM_TRAY_REQUEST_DOCK 0
@@ -107,6 +103,7 @@ enum { ClkTagBar,
 
 /* ---------------------------------- types --------------------------------- */
 
+// action arguments
 typedef union {
   int          i;
   unsigned int ui;
@@ -114,6 +111,7 @@ typedef union {
   const void*  v;
 } Arg;
 
+// button
 typedef struct {
   unsigned int click;
   unsigned int mask;
@@ -207,164 +205,22 @@ struct Systray {
   Client* icons;
 };
 
-/* -------------------------- function declarations ------------------------- */
+// TODO: get rid of pertag scum, write your own that works better
 
-// core
+#define TAGS_N 10
 
-static void     configure(Client* c);
-static int      xerror(Display* dpy, XErrorEvent* ee);
-static int      xerrordummy(Display* dpy, XErrorEvent* ee);
-static int      xerrorstart(Display* dpy, XErrorEvent* ee);
-static void     grabbuttons(Client* c, int focused);
-static void     grabkeys(void);
-static void     updatenumlockmask(void);
-static Atom     getatomprop(Client* c, Atom prop);
-static int      getrootptr(int* x, int* y);
-static int      gettextprop(Window w, Atom atom, char* text, unsigned int size);
-static void     sigchld(int unused);
-static void     updateclientlist(void);
-static int      updategeom(void);
-static void     updatetitle(Client* c);
-static void     updatewindowtype(Client* c);
-static void     updatewmhints(Client* c);
-static Client*  wintoclient(Window w);
-static Monitor* wintomon(Window w);
+struct Pertag {
+  unsigned int  curtag, prevtag;       // current and previous tag
+  int           nmasters[TAGS_N + 1];  // number of windows in master area
+  float         mfacts[TAGS_N + 1];    // mfacts per tag
+  unsigned int  sellts[TAGS_N + 1];    // selected layouts
+  const Layout* ltidxs[TAGS_N + 1][2]; // matrix of tags and layouts indexes
+  Bool          showbars[TAGS_N + 1];  // display bar for the current tag
+};
 
-// xevents
-
-static void configurenotify(XEvent* e);
-static void destroynotify(XEvent* e);
-static void configurerequest(XEvent* e);
-static void clientmessage(XEvent* e);
-static void keypress(XEvent* e);
-static void buttonpress(XEvent* e);
-static void enternotify(XEvent* e);
-static void expose(XEvent* e);
-static void focusin(XEvent* e);
-static void mappingnotify(XEvent* e);
-static void maprequest(XEvent* e);
-static void motionnotify(XEvent* e);
-static void propertynotify(XEvent* e);
-static void resizerequest(XEvent* e);
-static void unmapnotify(XEvent* e);
-static int  sendevent(Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
-
-// init
-
-static void     checkotherwm(void);
-static void     setup(void);
-static Monitor* createmon(void);
-static void     run(void);
-static void     scan(void);
-
-// uninit
-
-static void cleanup(void);
-static void cleanupmon(Monitor* mon);
-
-// manage
-
-static void     applyrules(Client* c);
-static int      applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact);
-static void     arrange(Monitor* m);
-static void     arrangemon(Monitor* m);
-static void     attach(Client* c);
-static void     attachstack(Client* c);
-static void     detach(Client* c);
-static void     detachstack(Client* c);
-static Monitor* dirtomon(int dir);
-static void     focus(Client* c);
-static long     getstate(Window w);
-static void     manage(Window w, XWindowAttributes* wa);
-static Client*  nexttiled(Client* c);
-static void     pop(Client*);
-static Monitor* recttomon(int x, int y, int w, int h);
-static void     resize(Client* c, int x, int y, int w, int h, int interact);
-static void     resizeclient(Client* c, int x, int y, int w, int h);
-static void     restack(Monitor* m);
-static void     sendmon(Client* c, Monitor* m);
-static void     setclientstate(Client* c, long state);
-static void     setfocus(Client* c);
-static void     setfullscreen(Client* c, int fullscreen);
-static void     seturgent(Client* c, int urg);
-static void     showhide(Client* c);
-static void     unfocus(Client* c, int setfocus);
-static void     unmanage(Client* c, int destroyed);
-static void     updatesizehints(Client* c);
-
-// bar
-
-static void         drawbar(Monitor* m);
-static void         drawbars(void);
-static void         drawtab(Monitor* m);
-static void         drawtabs(void);
-static void         updatebars(void);
-static void         updatebarpos(Monitor* m);
-static void         resizebarwin(Monitor* m);
-static Monitor*     systraytomon(Monitor* m);
-static unsigned int getsystraywidth();
-static int          drawstatusbar(Monitor* m, int bh, char* text, int stw);
-static void         updatestatus(void);
-static void         updatesystrayicongeom(Client* i, int w, int h);
-static void         updatesystrayiconstate(Client* i, XPropertyEvent* ev);
-static void         updatesystray(void);
-static Client*      wintosystrayicon(Window w);
-static void         removesystrayicon(Client* i);
-
-// layouts
-
-static void tile(Monitor*);
-/* static void bstack(Monitor* m); */
-static void monocle(Monitor* m);
-
-// actions
-
-static void quit(const Arg* arg);
-static void view(const Arg* arg);
-static void toggleall(const Arg* arg);
-static void toggleview(const Arg* arg);
-static void tag(const Arg* arg);
-static void toggletag(const Arg* arg);
-static void tabmode(const Arg* arg);
-static void tagmon(const Arg* arg);
-static void togglefloating(const Arg* arg);
-static void togglesticky(const Arg* arg);
-static void togglefullscr(const Arg* arg);
-static void cyclelayout(const Arg* arg);
-static void focusurgent(const Arg* arg);
-static void movestack(const Arg* arg);
-static void resizemouse(const Arg* arg);
-static void movemouse(const Arg* arg);
-static void zoom(const Arg* arg);
-static void togglebar(const Arg* arg);
-static void setlayout(const Arg* arg);
-static void setmfact(const Arg* arg);
-static void shiftviewclients(const Arg* arg);
-static void incnmaster(const Arg* arg);
-static void killclient(const Arg* arg);
-static void focuswin(const Arg* arg);
-static void focusmon(const Arg* arg);
-static void focusstack(const Arg* arg);
-
-/* ------------------------------- post stuff ------------------------------- */
-
-// handle XEvent to its function
-static void (*handler[LASTEvent])(XEvent*) = {
-  [ButtonPress]      = buttonpress,
-  [ClientMessage]    = clientmessage,
-  [ConfigureRequest] = configurerequest,
-  [ConfigureNotify]  = configurenotify,
-  [DestroyNotify]    = destroynotify,
-  [EnterNotify]      = enternotify,
-  [Expose]           = expose,
-  [FocusIn]          = focusin,
-  [KeyPress]         = keypress,
-  [MappingNotify]    = mappingnotify,
-  [MapRequest]       = maprequest,
-  [MotionNotify]     = motionnotify,
-  [PropertyNotify]   = propertynotify,
-  [ResizeRequest]    = resizerequest,
-  [UnmapNotify]      = unmapnotify
+// compile-time check if all tags fit into an unsigned int bit array.
+struct NumTags {
+  char limitexceeded[TAGS_N > 31 ? -1 : 1];
 };
 
 #endif // NWM_H_
