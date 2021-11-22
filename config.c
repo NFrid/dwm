@@ -4,6 +4,7 @@
 #include "actions.h"
 #include "layouts.h"
 #include "nwm.h"
+#include <X11/keysym.h>
 
 const unsigned int borderpx = 2;
 const unsigned int gappx    = 5;

@@ -1,7 +1,13 @@
 #ifndef DRW_H_
-#ifndef CCLS
 #define DRW_H_
-#endif
+
+#include <X11/XKBlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xft/Xft.h>
+#include <X11/Xlib.h>
+#include <X11/Xproto.h>
+#include <X11/Xutil.h>
+#include <X11/cursorfont.h>
 
 // cursor
 typedef struct {
@@ -63,7 +69,7 @@ void drw_setscheme(Drw* drw, Clr* scm);
 /* Drawing functions */
 
 void drw_rect(Drw* drw, int x, int y, unsigned int w, unsigned int h, int filled, int invert);
-void drw_polygon(Drw *drw, int x, int y, int ow, int oh, int sw, int sh, const XPoint *points, int npoints, int shape, int filled);
+void drw_polygon(Drw* drw, int x, int y, int ow, int oh, int sw, int sh, const XPoint* points, int npoints, int shape, int filled);
 int  drw_text(Drw* drw, int x, int y, unsigned int w, unsigned int h, unsigned int lpad, const char* text, int invert);
 
 /* Map functions */
@@ -71,4 +77,3 @@ int  drw_text(Drw* drw, int x, int y, unsigned int w, unsigned int h, unsigned i
 void drw_map(Drw* drw, Window win, int x, int y, unsigned int w, unsigned int h);
 
 #endif // DRW_H_
-
