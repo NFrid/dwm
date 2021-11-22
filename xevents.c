@@ -401,7 +401,7 @@ int sendevent(Window w, Atom proto, int mask, long d0, long d1, long d2, long d3
 }
 
 // handle XEvent to its function
-static void (*handler[LASTEvent])(XEvent*) = {
+void (*handler[LASTEvent])(XEvent*) = {
   [ButtonPress]      = buttonpress,
   [ClientMessage]    = clientmessage,
   [ConfigureRequest] = configurerequest,

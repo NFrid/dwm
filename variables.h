@@ -27,4 +27,6 @@ extern Monitor* selmon;           // selected monitor
 extern Window   root;             // root window
 extern Window   wmcheckwin;       // window for NetWMCheck
 
+extern void (*handler[LASTEvent])(XEvent*);
+
 #endif // VARIABLES_H_
