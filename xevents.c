@@ -15,14 +15,14 @@ void configurenotify(XEvent* e) {
 
   // TODO: updategeom handling sucks, needs to be simplified
   if (ev->window == root) {
-    dirty = (sw != ev->width || sh != ev->height);
-    sw    = ev->width;
-    sh    = ev->height;
+    dirty   = (screenw != ev->width || screenh != ev->height);
+    screenw = ev->width;
+    screenh = ev->height;
     if (updategeom() || dirty) {
-      drw_resize(drw, sw, bh);
+      drw_resize(drw, screenw, barh);
       updatebars();
       for (m = mons; m; m = m->next) {
-        XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, m->ww, bh);
+        XMoveResizeWindow(dpy, m->barwin, m->wx, m->bary, m->ww, barh);
       }
       resizebarwin(m);
     }
@@ -139,7 +139,7 @@ void buttonpress(XEvent* e) {
     if (i < TAGS_N) {
       click  = ClkTagBar;
       arg.ui = 1 << i;
-    } else if (ev->x < x + blw)
+    } else if (ev->x < x + barw)
       click = ClkLtSymbol;
     else if (ev->x > selmon->ww - (int)TEXTW(stext) - getsystraywidth())
       click = ClkStatusText;
@@ -201,8 +201,8 @@ void clientmessage(XEvent* e) {
       systray->icons = c;
       if (!XGetWindowAttributes(dpy, c->win, &wa)) {
         // use sane defaults
-        wa.width        = bh;
-        wa.height       = bh;
+        wa.width        = barh;
+        wa.height       = barh;
         wa.border_width = 0;
       }
       // set props

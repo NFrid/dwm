@@ -51,3 +51,10 @@ unsigned int n_ones(unsigned int n) {
   }
   return c;
 }
+
+int cmpint(const void* p1, const void* p2) {
+  /* The actual arguments to this function are "pointers to
+     pointers to char", but strcmp(3) arguments are "pointers
+     to char", hence the following cast plus dereference */
+  return *((int*)p1) > *(int*)p2;
+}

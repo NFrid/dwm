@@ -55,17 +55,17 @@ void focus(Client* c) {
 }
 
 // resize client (wrapper w/ sizehints)
-void resize(Client* c, int x, int y, int w, int h, int interact) {
+void resize(Client* c, int x, int y, unsigned w, unsigned h, Bool interact) {
   if (applysizehints(c, &x, &y, &w, &h, interact))
     resizeclient(c, x, y, w, h);
 }
 
 // actual resize client
-void resizeclient(Client* c, int x, int y, int w, int h) {
+void resizeclient(Client* c, int x, int y, unsigned w, unsigned h) {
   XWindowChanges wc;
-  unsigned int   n;
-  unsigned int   gapoffset;
-  unsigned int   gapincr;
+  unsigned       n;
+  unsigned       gapoffset;
+  unsigned       gapincr;
   Client*        nbc;
 
   wc.border_width = c->bw;
@@ -272,8 +272,8 @@ void updatesizehints(Client* c) {
 }
 
 // resize client using size hints (sticky stuff)
-int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact) {
-  int      baseismin;
+Bool applysizehints(Client* c, int* x, int* y, unsigned* w, unsigned* h, Bool interact) {
+  Bool     baseismin;
   Monitor* m = c->mon;
 
   // set minimum possible
@@ -281,10 +281,10 @@ int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact) {
   *h = MAX(1, *h);
 
   if (interact) {
-    if (*x > sw)
-      *x = sw - WIDTH(c);
-    if (*y > sh)
-      *y = sh - HEIGHT(c);
+    if (*x > screenw)
+      *x = screenw - WIDTH(c);
+    if (*y > screenh)
+      *y = screenh - HEIGHT(c);
     if (*x + *w + 2 * c->bw < 0)
       *x = 0;
     if (*y + *h + 2 * c->bw < 0)
@@ -299,10 +299,10 @@ int applysizehints(Client* c, int* x, int* y, int* w, int* h, int interact) {
     if (*y + *h + 2 * c->bw <= m->wy)
       *y = m->wy;
   }
-  if (*h < bh)
-    *h = bh;
-  if (*w < bh)
-    *w = bh;
+  if (*h < barh)
+    *h = barh;
+  if (*w < barh)
+    *w = barh;
   if (resizehints || c->isfloating || !c->mon->lt[c->mon->sellt]->arrange) {
     /* see last two sentences in ICCCM 4.1.2.3 */
     baseismin = c->basew == c->minw && c->baseh == c->minh;

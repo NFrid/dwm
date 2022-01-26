@@ -86,7 +86,7 @@ void arrange(Monitor* m) {
 // arrange monitor
 void arrangemon(Monitor* m) {
   updatebarpos(m);
-  XMoveResizeWindow(dpy, m->tabwin, m->wx, m->ty, m->ww, th);
+  XMoveResizeWindow(dpy, m->tabwin, m->wx, m->taby, m->ww, tabh);
   strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
   if (m->lt[m->sellt]->arrange)
     m->lt[m->sellt]->arrange(m);
@@ -140,9 +140,9 @@ void manage(Window w, XWindowAttributes* wa) {
     c->y = c->mon->my + c->mon->mh - HEIGHT(c);
   c->x = MAX(c->x, c->mon->mx);
   /* only fix client y-offset, if the client center might cover the bar */
-  c->y  = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
+  c->y  = MAX(c->y, ((c->mon->bary == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
                        && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww))
-                        ? bh
+                        ? barh
                         : c->mon->my);
   c->bw = borderpx;
 
@@ -165,7 +165,7 @@ void manage(Window w, XWindowAttributes* wa) {
   attachstack(c);
   XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
       (unsigned char*)&(c->win), 1);
-  XMoveResizeWindow(dpy, c->win, c->x + 2 * sw, c->y, c->w, c->h); /* some windows require this */
+  XMoveResizeWindow(dpy, c->win, c->x + 2 * screenw, c->y, c->w, c->h); /* some windows require this */
   setclientstate(c, NormalState);
   if (c->mon == selmon)
     unfocus(selmon->sel, 0);

@@ -283,10 +283,10 @@ int updategeom(void) {
   {    /* default monitor setup */
     if (!mons)
       mons = createmon();
-    if (mons->mw != sw || mons->mh != sh) {
+    if (mons->mw != screenw || mons->mh != screenh) {
       dirty    = 1;
-      mons->mw = mons->ww = sw;
-      mons->mh = mons->wh = sh;
+      mons->mw = mons->ww = screenw;
+      mons->mh = mons->wh = screenh;
       updatebarpos(mons);
     }
   }
@@ -350,16 +350,16 @@ void setup(void) {
   sigchld(0); // clean up any zombies immediately
 
   // init screen
-  screen = DefaultScreen(dpy);
-  sw     = DisplayWidth(dpy, screen);
-  sh     = DisplayHeight(dpy, screen);
-  root   = RootWindow(dpy, screen);
-  drw    = drw_create(dpy, screen, root, sw, sh);
+  screen  = DefaultScreen(dpy);
+  screenw = DisplayWidth(dpy, screen);
+  screenh = DisplayHeight(dpy, screen);
+  root    = RootWindow(dpy, screen);
+  drw     = drw_create(dpy, screen, root, screenw, screenh);
   if (!drw_fontset_create(drw, fonts, fonts_len))
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h * barspacing_font + 2 * barspacing;
-  bh    = drw->fonts->h + 2 * barmargins; // TODO: add setting to set paddings
-  th    = bh;
+  barh  = drw->fonts->h + 2 * barmargins; // TODO: add setting to set paddings
+  tabh  = barh;
   updategeom();
 
   // init atoms

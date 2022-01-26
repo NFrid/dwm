@@ -97,17 +97,17 @@ enum { ClkTagBar,
 
 // action arguments
 typedef union {
-  int          i;
-  unsigned int ui;
-  float        f;
-  const void*  v;
+  int         i;  // int
+  unsigned    ui; // unsigned int
+  float       f;  // float
+  const void* v;  // void
 } Arg;
 
 // button
 typedef struct {
-  unsigned int click;
-  unsigned int mask;
-  unsigned int button;
+  unsigned click;
+  unsigned mask;
+  unsigned button;
   void (*func)(const Arg* arg);
   const Arg arg;
 } Button;
@@ -115,26 +115,26 @@ typedef struct {
 typedef struct Monitor Monitor;
 typedef struct Client  Client;
 struct Client {
-  char         name[256];                          // client's name
-  float        mina, maxa;                         // aspect ratio
-  int          x, y, w, h;                         // geometry
-  int          oldx, oldy, oldw, oldh;             // prev geometry
-  int          basew, baseh, incw, inch;           // based geometry
-  int          maxw, maxh, minw, minh;             // based geometry
-  int          bw, oldbw;                          // border width
-  unsigned int tags;                               // assigned tags
-  int          isfixed, isfloating, isurgent;      // client state
-  int          neverfocus, oldstate, isfullscreen; // client state
-  int          issticky;                           // client state
-  Client*      next;                               // next client link
-  Client*      snext;                              // next stack
-  Monitor*     mon;                                // assigned monitor
-  Window       win;                                // client's window
+  char     name[256];                          // client's name
+  float    mina, maxa;                         // aspect ratio
+  int      x, y, oldx, oldy;                   // client coordinates
+  unsigned w, h, oldw, oldh;                   // client dimension
+  unsigned basew, baseh, incw, inch;           // base/incremental dimension
+  unsigned maxw, maxh, minw, minh;             // dimension limit
+  unsigned bw, oldbw;                          // border width
+  unsigned tags;                               // assigned tags
+  Bool     isfixed, isfloating, isurgent;      // client state
+  Bool     neverfocus, oldstate, isfullscreen; // client state
+  Bool     issticky;                           // client state
+  Client*  next;                               // next client link
+  Client*  snext;                              // next stack
+  Monitor* mon;                                // assigned monitor
+  Window   win;                                // client's window
 };
 
 typedef struct {
-  unsigned int mod;
-  KeySym       keysym;
+  unsigned mod;
+  KeySym   keysym;
   void (*func)(const Arg*);
   const Arg arg;
 } Key;
@@ -153,42 +153,44 @@ struct Monitor {
   float         mfact;               // ratio factor of layout
   int           nmaster;             // number of masters
   int           num;                 // number (id)
-  int           by;                  // bar geometry
-  int           ty;                  // tab bar geometry
-  int           mx, my, mw, mh;      // screen size
-  int           wx, wy, ww, wh;      // window area
-  unsigned int  seltags;             // selected tags
-  unsigned int  sellt;               // selected layout
-  unsigned int  tagset[2];           // set of tags for the monitor
-  int           showbar;             // 0 means no bar
-  int           showtab;             // 0 means no tab bar
-  int           topbar;              // 0 means bottom bar
-  int           toptab;              // 0 means bottom tab bar
+  int           bary;                // bar geometry
+  int           taby;                // tab bar geometry
+  int           mx, my;              // screen coordinates
+  unsigned      mw, mh;              // screen dimensions
+  int           wx, wy;              // window coordinates
+  unsigned      ww, wh;              // window dimensions
+  unsigned      seltags;             // selected tags
+  unsigned      sellt;               // selected layout
+  unsigned      tagset[2];           // set of tags for the monitor
+  Bool          showbar;             // false means no bar
+  Bool          showtab;             // false means no tab bar
+  Bool          topbar;              // false means bottom bar
+  Bool          toptab;              // false means bottom tab bar
   Client*       clients;             // clients on this monitor
   Client*       sel;                 // selected client
   Client*       stack;               // current stack of clients
   Monitor*      next;                // pointer to next monitor
   Window        barwin;              // window of the native bar
   Window        tabwin;              // window of the tab bar
-  unsigned int  ntabs;               // number of tab bars
-  int           tab_widths[MAXTABS]; // width of tab bars
+  unsigned      ntabs;               // number of tab bars
+  unsigned      tab_widths[MAXTABS]; // width of tab bars
   const Layout* lt[2];               // layouts
   Pertag*       pertag;              // separated parameters (e.g. layout) per tag
 };
 
 typedef struct {
   const char* class;
-  const char*  instance;
-  const char*  title;
-  unsigned int tags;
-  int          isfloating;
-  int          monitor;
+  const char* instance;
+  const char* title;
+  unsigned    tags;
+  int         isfloating;
+  int         monitor;
 } Rule;
 
 typedef struct {
-  unsigned int tag;    // index of tag in array
-  unsigned int layout; // index of layout in array
-  float        mfact;  // ratio, -1 for default
+  unsigned tag;    // index of tag in array
+  unsigned layout; // index of layout in array
+  float    mfact;  // ratio, -1 for default
 } PertagRule;
 
 typedef struct Systray Systray;
@@ -202,10 +204,10 @@ struct Systray {
 #define TAGS_N 10
 
 struct Pertag {
-  unsigned int  curtag, prevtag;       // current and previous tag
+  unsigned      curtag, prevtag;       // current and previous tag
   int           nmasters[TAGS_N + 1];  // number of windows in master area
   float         mfacts[TAGS_N + 1];    // mfacts per tag
-  unsigned int  sellts[TAGS_N + 1];    // selected layouts
+  unsigned      sellts[TAGS_N + 1];    // selected layouts
   const Layout* ltidxs[TAGS_N + 1][2]; // matrix of tags and layouts indexes
   Bool          showbars[TAGS_N + 1];  // display bar for the current tag
 };
