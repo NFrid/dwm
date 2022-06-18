@@ -58,3 +58,7 @@ int cmpint(const void* p1, const void* p2) {
      to char", hence the following cast plus dereference */
   return *((int*)p1) > *(int*)p2;
 }
+
+unsigned int intersect(int x1, int y1, unsigned w1, unsigned h1, int x2, int y2, unsigned w2, unsigned h2) {
+  return MAX(0, MIN(x1 + w1, x2 + w2) - MAX(x1, x2)) * MAX(0, MIN(y1 + h1, y2 + h2) - MAX(y1, y2));
+}

@@ -61,6 +61,11 @@ void drawbar(Monitor* mon) {
   drw_setscheme(drw, scheme[mon == selmon ? SchemeNorm : SchemeDark]);
   x = drw_text(drw, x, 0, w, barh, lrpad / 2, mon->ltsymbol, 0);
 
+  if (debuginfo[0]) {
+    // draw debug info
+    x = drw_text(drw, x, 0, TEXTW(debuginfo), barh, lrpad / 2, debuginfo, 0);
+  }
+
   // draw selected client
   if ((w = mon->ww - status_w - x) > barh) {
     if (mon->sel) {

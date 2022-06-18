@@ -18,4 +18,8 @@ void* ecalloc(size_t nmemb, size_t size);
 unsigned int n_ones(unsigned int n);
 int          cmpint(const void* p1, const void* p2); // compare pointers as int
 
+unsigned int intersect(int x1, int y1, unsigned w1, unsigned h1, int x2, int y2, unsigned w2, unsigned h2);
+
+extern char debuginfo[36];
+
 #endif // UTIL_H_

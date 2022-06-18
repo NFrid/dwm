@@ -179,9 +179,10 @@ void manage(Window w, XWindowAttributes* wa) {
 Monitor* recttomon(int x, int y, int w, int h) {
   Monitor *m, *r   = selmon;
   int      a, area = 0;
+  int      deltawy = showbar * selmon->showbar * barh;
 
   for (m = mons; m; m = m->next)
-    if ((a = INTERSECT(x, y, w, h, m)) > area) {
+    if ((a = intersect(x, y, w, h, m->wx, m->wy - deltawy, m->ww, m->wh + deltawy)) > area) {
       area = a;
       r    = m;
     }

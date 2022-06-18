@@ -136,7 +136,10 @@ void toggletag(const Arg* arg) {
 void tagmon(const Arg* arg) {
   if (!selmon->sel || !mons->next)
     return;
-  sendmon(selmon->sel, dirtomon(arg->i));
+  Monitor* m = dirtomon(arg->i);
+  Client*  c = selmon->sel;
+  selmon     = m;
+  sendmon(c, m);
 }
 
 // toggle floating state for selected client
