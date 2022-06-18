@@ -62,14 +62,13 @@ const size_t pertagrules_len = LENGTH(pertagrules);
 const Rule rules[] = {
   // clang-format off
 //* class                 instance  title   tags mask   isfloating  monitor
-  { "mpv",                NULL,     NULL,   1,          0,          0 },
-
   { "Alacritty",          NULL,     "sys:", 1,          0,          1 },
 
   { "discord",            NULL,     NULL,   1 << 2,     0,          1 },
   { "TelegramDesktop",    NULL,     NULL,   1 << 2,     0,          1 },
   { "VK",                 NULL,     NULL,   1 << 2,     0,          1 },
   { "Element",            NULL,     NULL,   1 << 2,     0,          1 },
+  { "Slack",              NULL,     NULL,   1 << 2,     0,          1 },
 
   { "zoom",               NULL,     NULL,   1 << 4,     0,          1 },
 
@@ -80,6 +79,7 @@ const Rule rules[] = {
   { "Zathura",            NULL,     NULL,   0,          0,         -1 },
 
   { "Crow Translate",     NULL,     NULL,   0,          1,         -1 },
+  { "copyq",              NULL,     NULL,   0,          1,         -1 },
 
   { "obs",                NULL,     NULL,   1 << 8,     0,          1 },
   // clang-format on
@@ -124,6 +124,7 @@ Key keys[] = {
   { MODKEY, XK_o,                       view, { 0 } },
   { MODKEY, XK_c,                       killclient, { 0 } },
   { MODKEY, XK_u,                       focusurgent, { 0 } },
+  { MODKEY | ShiftMask, XK_u,           takeurgent, { 0 } },
 
   // {MODKEY, XK_t,                        setlayout, {.v = &layouts[0]}},
   // {MODKEY | ShiftMask, XK_w,            setlayout, {.v = &layouts[1]}},

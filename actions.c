@@ -186,6 +186,19 @@ void focusurgent(const Arg* arg) {
   }
 }
 
+// take urgent item to focused stack
+void takeurgent(const Arg* arg) {
+  Monitor* m;
+  Client*  c = NULL;
+  for (m = selmon; m; m = m->next)
+    for (c = m->clients; c && !c->isurgent; c = c->next)
+      ;
+  if (c) {
+    sendmon(c, selmon);
+    /* focus(c); */
+  }
+}
+
 /* move focused item in stack
  * arg.i - shift amount (e.g. +1) */
 void movestack(const Arg* arg) {

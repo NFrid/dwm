@@ -16,6 +16,7 @@ extern void togglesticky(const Arg* arg);
 extern void togglefullscr(const Arg* arg);
 extern void cyclelayout(const Arg* arg);
 extern void focusurgent(const Arg* arg);
+extern void takeurgent(const Arg* arg);
 extern void movestack(const Arg* arg);
 extern void resizemouse(const Arg* arg);
 extern void movemouse(const Arg* arg);
