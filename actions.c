@@ -194,8 +194,12 @@ void takeurgent(const Arg* arg) {
     for (c = m->clients; c && !c->isurgent; c = c->next)
       ;
   if (c) {
+    if (c->mon == selmon) {
+      c->tags = selmon->sel->tags;
+      focus(c);
+      arrange(selmon);
+    }
     sendmon(c, selmon);
-    /* focus(c); */
   }
 }
 
