@@ -77,7 +77,8 @@ void configurerequest(XEvent* e) {
         c->x = m->mx + (m->mw / 2 - WIDTH(c) / 2); /* center in x direction */
       if ((c->y + c->h) > m->my + m->mh && c->isfloating)
         c->y = m->my + (m->mh / 2 - HEIGHT(c) / 2); /* center in y direction */
-      if ((ev->value_mask & (CWX | CWY)) && !(ev->value_mask & (CWWidth | CWHeight)))
+      if ((ev->value_mask & (CWX | CWY))
+          && !(ev->value_mask & (CWWidth | CWHeight)))
         configure(c);
       if (ISVISIBLE(c))
         XMoveResizeWindow(dpy, c->win, c->x, c->y, c->w, c->h);
@@ -106,8 +107,7 @@ void keypress(XEvent* e) {
   keysym = XkbKeycodeToKeysym(dpy, ev->keycode, 0, 0);
   for (i = 0; keys[i].func != NULL; i++)
     if (keysym == keys[i].keysym
-        && cleanmask(keys[i].mod) == cleanmask(ev->state)
-        && keys[i].func)
+        && cleanmask(keys[i].mod) == cleanmask(ev->state) && keys[i].func)
       keys[i].func(&(keys[i].arg));
 }
 
@@ -171,12 +171,13 @@ void buttonpress(XEvent* e) {
     click = ClkClientWin;
   }
   for (i = 0; buttons[i].func != NULL; i++)
-    if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
+    if (click == buttons[i].click && buttons[i].func
+        && buttons[i].button == ev->button
         && cleanmask(buttons[i].mask) == cleanmask(ev->state))
-      buttons[i].func(((click == ClkTagBar || click == ClkTabBar)
-                          && buttons[i].arg.i == 0)
-                          ? &arg
-                          : &buttons[i].arg);
+      buttons[i].func(
+          ((click == ClkTagBar || click == ClkTabBar) && buttons[i].arg.i == 0)
+              ? &arg
+              : &buttons[i].arg);
 }
 
 // handle client messages
@@ -187,7 +188,8 @@ void clientmessage(XEvent* e) {
   Client*              c   = wintoclient(cme->window);
 
   // handle systray icon clients
-  if (showsystray && cme->window == systray->win && cme->message_type == netatom[NetSystemTrayOP]) {
+  if (showsystray && cme->window == systray->win
+      && cme->message_type == netatom[NetSystemTrayOP]) {
     if (cme->data.l[1] == SYSTEM_TRAY_REQUEST_DOCK) {
       if (!(c = (Client*)calloc(1, sizeof(Client))))
         die("fatal: could not malloc() %u bytes\n", sizeof(Client));
@@ -218,16 +220,21 @@ void clientmessage(XEvent* e) {
       updatesizehints(c);
       updatesystrayicongeom(c, wa.width, wa.height);
       XAddToSaveSet(dpy, c->win);
-      XSelectInput(dpy, c->win, StructureNotifyMask | PropertyChangeMask | ResizeRedirectMask);
+      XSelectInput(dpy, c->win,
+          StructureNotifyMask | PropertyChangeMask | ResizeRedirectMask);
       XReparentWindow(dpy, c->win, systray->win, 0, 0);
       // use parents background color
       swa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
       XChangeWindowAttributes(dpy, c->win, CWBackPixel, &swa);
-      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_EMBEDDED_NOTIFY, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime,
+          XEMBED_EMBEDDED_NOTIFY, 0, systray->win, XEMBED_EMBEDDED_VERSION);
       // FIXME: not sure if I have to send these events, too
-      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_FOCUS_IN, 0, systray->win, XEMBED_EMBEDDED_VERSION);
-      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
-      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_MODALITY_ON, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime,
+          XEMBED_FOCUS_IN, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime,
+          XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+      sendevent(c->win, netatom[Xembed], StructureNotifyMask, CurrentTime,
+          XEMBED_MODALITY_ON, 0, systray->win, XEMBED_EMBEDDED_VERSION);
       // make it brrrrr: fin
       XSync(dpy, False);
       resizebarwin(selmon);
@@ -260,7 +267,8 @@ void enternotify(XEvent* e) {
   Monitor*        m;
   XCrossingEvent* ev = &e->xcrossing;
 
-  if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior) && ev->window != root)
+  if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior)
+      && ev->window != root)
     return;
   c = wintoclient(ev->window);
   m = c ? c->mon : wintomon(ev->window);
@@ -286,7 +294,8 @@ void expose(XEvent* e) {
 }
 
 // FocusIn event handler
-void focusin(XEvent* e) { // TODO: there are some broken focus acquiring clients needing extra handling
+void focusin(XEvent* e) { // TODO: there are some broken focus acquiring clients
+                          // needing extra handling
   XFocusChangeEvent* ev = &e->xfocus;
 
   if (selmon->sel && ev->window != selmon->sel->win)
@@ -308,7 +317,8 @@ void maprequest(XEvent* e) {
   XMapRequestEvent*        ev = &e->xmaprequest;
   Client*                  i;
   if ((i = wintosystrayicon(ev->window))) {
-    sendevent(i->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+    sendevent(i->win, netatom[Xembed], StructureNotifyMask, CurrentTime,
+        XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
     resizebarwin(selmon);
     updatesystray();
   }
@@ -368,7 +378,8 @@ void unmapnotify(XEvent* e) {
 }
 
 // send x event
-int sendevent(Window w, Atom proto, int mask, long d0, long d1, long d2, long d3, long d4) {
+int sendevent(Window w, Atom proto, int mask, long d0, long d1, long d2,
+    long d3, long d4) {
   int    n;
   Atom * protocols, mt;
   int    exists = 0;
@@ -401,20 +412,18 @@ int sendevent(Window w, Atom proto, int mask, long d0, long d1, long d2, long d3
 }
 
 // handle XEvent to its function
-void (*handler[LASTEvent])(XEvent*) = {
-  [ButtonPress]      = buttonpress,
-  [ClientMessage]    = clientmessage,
-  [ConfigureRequest] = configurerequest,
-  [ConfigureNotify]  = configurenotify,
-  [DestroyNotify]    = destroynotify,
-  [EnterNotify]      = enternotify,
-  [Expose]           = expose,
-  [FocusIn]          = focusin,
-  [KeyPress]         = keypress,
-  [MappingNotify]    = mappingnotify,
-  [MapRequest]       = maprequest,
-  [MotionNotify]     = motionnotify,
-  [PropertyNotify]   = propertynotify,
-  [ResizeRequest]    = resizerequest,
-  [UnmapNotify]      = unmapnotify
-};
+void (*handler[LASTEvent])(XEvent*) = { [ButtonPress] = buttonpress,
+  [ClientMessage]                                     = clientmessage,
+  [ConfigureRequest]                                  = configurerequest,
+  [ConfigureNotify]                                   = configurenotify,
+  [DestroyNotify]                                     = destroynotify,
+  [EnterNotify]                                       = enternotify,
+  [Expose]                                            = expose,
+  [FocusIn]                                           = focusin,
+  [KeyPress]                                          = keypress,
+  [MappingNotify]                                     = mappingnotify,
+  [MapRequest]                                        = maprequest,
+  [MotionNotify]                                      = motionnotify,
+  [PropertyNotify]                                    = propertynotify,
+  [ResizeRequest]                                     = resizerequest,
+  [UnmapNotify]                                       = unmapnotify };

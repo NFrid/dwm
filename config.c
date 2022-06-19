@@ -26,7 +26,8 @@ const unsigned int barmargins      = 1;
 const unsigned int barspacing      = 0;
 const unsigned int barspacing_font = 1;
 
-const char* fonts[]     = { "Iosevka nf:size=12", "Noto Color Emoji", "Source Han Sans JP" };
+const char* fonts[]
+    = { "Iosevka nf:size=12", "Noto Color Emoji", "Source Han Sans JP" };
 const char  col_white[] = "#f8f8f2";
 const char  col_gray1[] = "#282a36";
 const char  col_gray2[] = "#44475a";
@@ -43,7 +44,8 @@ const char* colors[][3] = {
 const size_t fonts_len  = LENGTH(fonts);
 const size_t colors_len = LENGTH(colors);
 
-const XPoint stickyicon[]   = { { 0, 0 }, { 4, 0 }, { 4, 8 }, { 2, 6 }, { 0, 8 }, { 0, 0 } };
+const XPoint stickyicon[]
+    = { { 0, 0 }, { 4, 0 }, { 4, 8 }, { 2, 6 }, { 0, 8 }, { 0, 0 } };
 const size_t stickyicon_len = LENGTH(stickyicon);
 const XPoint stickyiconbb   = { 4, 8 };
 
@@ -164,7 +166,8 @@ TAGKEYS(XK_0, 9),
 
 Button buttons[] = {
   // click can be:
-  // ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin
+  // ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or
+  // ClkRootWin
 
   // clang-format off
 //* click event     mask, button      function, argument

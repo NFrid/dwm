@@ -62,7 +62,8 @@ Monitor* createmon(void) {
     if (pertagrules[i].mfact > 0) {
       m->pertag->mfacts[pertagrules[i].tag + 1] = pertagrules[i].mfact;
     }
-    m->pertag->ltidxs[pertagrules[i].tag + 1][0] = &layouts[pertagrules[i].layout];
+    m->pertag->ltidxs[pertagrules[i].tag + 1][0]
+        = &layouts[pertagrules[i].layout];
   }
 
   return m;
@@ -100,8 +101,8 @@ long getstate(Window w) {
   unsigned long  n, extra;
   Atom           real;
 
-  if (XGetWindowProperty(dpy, w, wmatom[WMState], 0L, 2L, False, wmatom[WMState],
-          &real, &format, &n, &extra, (unsigned char**)&p)
+  if (XGetWindowProperty(dpy, w, wmatom[WMState], 0L, 2L, False,
+          wmatom[WMState], &real, &format, &n, &extra, (unsigned char**)&p)
       != Success)
     return -1;
   if (n != 0)
@@ -140,10 +141,11 @@ void manage(Window w, XWindowAttributes* wa) {
     c->y = c->mon->my + c->mon->mh - HEIGHT(c);
   c->x = MAX(c->x, c->mon->mx);
   /* only fix client y-offset, if the client center might cover the bar */
-  c->y  = MAX(c->y, ((c->mon->bary == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
-                       && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww))
-                        ? barh
-                        : c->mon->my);
+  c->y = MAX(
+      c->y, ((c->mon->bary == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
+                && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww))
+                ? barh
+                : c->mon->my);
   c->bw = borderpx;
 
   wc.border_width = c->bw;
@@ -155,7 +157,9 @@ void manage(Window w, XWindowAttributes* wa) {
   updatewmhints(c);
   c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
   c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
-  XSelectInput(dpy, w, EnterWindowMask | FocusChangeMask | PropertyChangeMask | StructureNotifyMask);
+  XSelectInput(dpy, w,
+      EnterWindowMask | FocusChangeMask | PropertyChangeMask
+          | StructureNotifyMask);
   grabbuttons(c, 0);
   if (!c->isfloating)
     c->isfloating = c->oldstate = trans != None || c->isfixed;
@@ -163,9 +167,10 @@ void manage(Window w, XWindowAttributes* wa) {
     XRaiseWindow(dpy, c->win);
   attach(c);
   attachstack(c);
-  XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
-      (unsigned char*)&(c->win), 1);
-  XMoveResizeWindow(dpy, c->win, c->x + 2 * screenw, c->y, c->w, c->h); /* some windows require this */
+  XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32,
+      PropModeAppend, (unsigned char*)&(c->win), 1);
+  XMoveResizeWindow(dpy, c->win, c->x + 2 * screenw, c->y, c->w,
+      c->h); /* some windows require this */
   setclientstate(c, NormalState);
   if (c->mon == selmon)
     unfocus(selmon->sel, 0);
@@ -182,7 +187,9 @@ Monitor* recttomon(int x, int y, int w, int h) {
   int      deltawy = showbar * selmon->showbar * barh;
 
   for (m = mons; m; m = m->next)
-    if ((a = intersect(x, y, w, h, m->wx, m->wy - deltawy, m->ww, m->wh + deltawy)) > area) {
+    if ((a = intersect(
+             x, y, w, h, m->wx, m->wy - deltawy, m->ww, m->wh + deltawy))
+        > area) {
       area = a;
       r    = m;
     }

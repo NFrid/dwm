@@ -39,19 +39,19 @@ Monitor* selmon;
 Window   root;
 Window   wmcheckwin;
 
-char    debuginfo[36];
+char debuginfo[36];
 
 int main(int argc, char* argv[]) {
   if (argc == 2 && !strcmp("-v", argv[1]))
-  die_happy("nwm v0.9.999.99999");
+    die_happy("nwm v0.9.999.99999");
   else if (argc != 1)
-  die("usage: nwm [-v]");
+    die("usage: nwm [-v]");
 
   if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
-  fputs("warning: no locale support\n", stderr);
+    fputs("warning: no locale support\n", stderr);
 
   if (!(dpy = XOpenDisplay(NULL)))
-  die("nwm: cannot open display");
+    die("nwm: cannot open display");
 
   checkotherwm();
   setup();

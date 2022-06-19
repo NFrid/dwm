@@ -6,8 +6,10 @@
 extern void configure(Client* c);
 extern void applyrules(Client* c);
 
-extern Bool applysizehints(Client* c, int* x, int* y, unsigned* w, unsigned* h, Bool interact);
-extern void resize(Client* c, int x, int y, unsigned w, unsigned h, Bool interact);
+extern Bool applysizehints(
+    Client* c, int* x, int* y, unsigned* w, unsigned* h, Bool interact);
+extern void resize(
+    Client* c, int x, int y, unsigned w, unsigned h, Bool interact);
 extern void resizeclient(Client* c, int x, int y, unsigned w, unsigned h);
 
 extern void updatesizehints(Client* c);

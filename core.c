@@ -19,7 +19,8 @@ int xerror(Display* dpy, XErrorEvent* ee) {
   if (ee->error_code == BadWindow
       || (ee->request_code == X_SetInputFocus && ee->error_code == BadMatch)
       || (ee->request_code == X_PolyText8 && ee->error_code == BadDrawable)
-      || (ee->request_code == X_PolyFillRectangle && ee->error_code == BadDrawable)
+      || (ee->request_code == X_PolyFillRectangle
+          && ee->error_code == BadDrawable)
       || (ee->request_code == X_PolySegment && ee->error_code == BadDrawable)
       || (ee->request_code == X_ConfigureWindow && ee->error_code == BadMatch)
       || (ee->request_code == X_GrabButton && ee->error_code == BadAccess)
@@ -32,9 +33,7 @@ int xerror(Display* dpy, XErrorEvent* ee) {
 }
 
 // dummy error handler (for cleanup)
-int xerrordummy(Display* dpy, XErrorEvent* ee) {
-  return 0;
-}
+int xerrordummy(Display* dpy, XErrorEvent* ee) { return 0; }
 
 // startup error handler to check if another window manager is already running
 int xerrorstart(Display* dpy, XErrorEvent* ee) {
@@ -47,18 +46,18 @@ void grabbuttons(Client* c, int focused) {
   updatenumlockmask();
   {
     unsigned int i, j;
-    unsigned int modifiers[] = { 0, LockMask, numlockmask, numlockmask | LockMask };
+    unsigned int modifiers[]
+        = { 0, LockMask, numlockmask, numlockmask | LockMask };
     XUngrabButton(dpy, AnyButton, AnyModifier, c->win);
     if (!focused)
-      XGrabButton(dpy, AnyButton, AnyModifier, c->win, False,
-          BUTTONMASK, GrabModeSync, GrabModeSync, None, None);
+      XGrabButton(dpy, AnyButton, AnyModifier, c->win, False, BUTTONMASK,
+          GrabModeSync, GrabModeSync, None, None);
     for (i = 0; buttons[i].func != NULL; i++)
       if (buttons[i].click == ClkClientWin)
         for (j = 0; j < LENGTH(modifiers); j++)
-          XGrabButton(dpy, buttons[i].button,
-              buttons[i].mask | modifiers[j],
-              c->win, False, BUTTONMASK,
-              GrabModeAsync, GrabModeSync, None, None);
+          XGrabButton(dpy, buttons[i].button, buttons[i].mask | modifiers[j],
+              c->win, False, BUTTONMASK, GrabModeAsync, GrabModeSync, None,
+              None);
   }
 }
 
@@ -67,15 +66,16 @@ void grabkeys(void) {
   updatenumlockmask();
   {
     unsigned int i, j;
-    unsigned int modifiers[] = { 0, LockMask, numlockmask, numlockmask | LockMask };
-    KeyCode      code;
+    unsigned int modifiers[]
+        = { 0, LockMask, numlockmask, numlockmask | LockMask };
+    KeyCode code;
 
     XUngrabKey(dpy, AnyKey, AnyModifier, root);
     for (i = 0; keys[i].func != NULL; i++)
       if ((code = XKeysymToKeycode(dpy, keys[i].keysym)))
         for (j = 0; j < LENGTH(modifiers); j++)
-          XGrabKey(dpy, code, keys[i].mod | modifiers[j], root,
-              True, GrabModeAsync, GrabModeAsync);
+          XGrabKey(dpy, code, keys[i].mod | modifiers[j], root, True,
+              GrabModeAsync, GrabModeAsync);
   }
 }
 
@@ -100,13 +100,14 @@ Atom getatomprop(Client* c, Atom prop) {
   unsigned long  dl;
   unsigned char* p = NULL;
   Atom           da, atom = None;
-  // TODO: getatomprop should return the number of items and a pointer to the stored data instead of this workaround
+  // TODO: getatomprop should return the number of items and a pointer to the
+  // stored data instead of this workaround
   Atom req = XA_ATOM;
   if (prop == xatom[XembedInfo])
     req = xatom[XembedInfo];
 
-  if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req,
-          &da, &di, &dl, &dl, &p)
+  if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req, &da,
+          &di, &dl, &dl, &p)
           == Success
       && p) {
     atom = *(Atom*)p;
@@ -150,7 +151,8 @@ void propertynotify(XEvent* e) {
     default:
       break;
     case XA_WM_TRANSIENT_FOR:
-      if (!c->isfloating && (XGetTransientForHint(dpy, c->win, &trans)) && (c->isfloating = (wintoclient(trans)) != NULL))
+      if (!c->isfloating && (XGetTransientForHint(dpy, c->win, &trans))
+          && (c->isfloating = (wintoclient(trans)) != NULL))
         arrange(c->mon);
       break;
     case XA_WM_NORMAL_HINTS:
@@ -187,7 +189,8 @@ int gettextprop(Window w, Atom atom, char* text, unsigned int size) {
   if (name.encoding == XA_STRING)
     strncpy(text, (char*)name.value, size - 1);
   else {
-    if (XmbTextPropertyToTextList(dpy, &name, &list, &n) >= Success && n > 0 && *list) {
+    if (XmbTextPropertyToTextList(dpy, &name, &list, &n) >= Success && n > 0
+        && *list) {
       strncpy(text, *list, size - 1);
       XFreeStringList(list);
     }
@@ -213,9 +216,8 @@ void updateclientlist() {
   XDeleteProperty(dpy, root, netatom[NetClientList]);
   for (m = mons; m; m = m->next)
     for (c = m->clients; c; c = c->next)
-      XChangeProperty(dpy, root, netatom[NetClientList],
-          XA_WINDOW, 32, PropModeAppend,
-          (unsigned char*)&(c->win), 1);
+      XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32,
+          PropModeAppend, (unsigned char*)&(c->win), 1);
 }
 
 // update geometry
@@ -249,8 +251,7 @@ int updategeom(void) {
           mons = createmon();
       }
       for (i = 0, m = mons; i < nn && m; m = m->next, i++)
-        if (i >= n
-            || unique[i].x_org != m->mx || unique[i].y_org != m->my
+        if (i >= n || unique[i].x_org != m->mx || unique[i].y_org != m->my
             || unique[i].width != m->mw || unique[i].height != m->mh) {
           dirty  = 1;
           m->num = i;
@@ -327,9 +328,9 @@ Monitor* wintomon(Window w) {
 
 // return unmasked keypress
 unsigned int cleanmask(unsigned int masked) {
-  return masked
-       & ~(numlockmask | LockMask)
-       & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask);
+  return masked & ~(numlockmask | LockMask)
+       & (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask
+           | Mod5Mask);
 }
 
 // throws an error if some other window manager is running
@@ -363,27 +364,31 @@ void setup(void) {
   updategeom();
 
   // init atoms
-  utf8string                            = XInternAtom(dpy, "UTF8_STRING", False);
-  wmatom[WMProtocols]                   = XInternAtom(dpy, "WM_PROTOCOLS", False);
-  wmatom[WMDelete]                      = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
-  wmatom[WMState]                       = XInternAtom(dpy, "WM_STATE", False);
-  wmatom[WMTakeFocus]                   = XInternAtom(dpy, "WM_TAKE_FOCUS", False);
-  netatom[NetActiveWindow]              = XInternAtom(dpy, "_NET_ACTIVE_WINDOW", False);
-  netatom[NetSupported]                 = XInternAtom(dpy, "_NET_SUPPORTED", False);
-  netatom[NetSystemTray]                = XInternAtom(dpy, "_NET_SYSTEM_TRAY_S0", False);
-  netatom[NetSystemTrayOP]              = XInternAtom(dpy, "_NET_SYSTEM_TRAY_OPCODE", False);
-  netatom[NetSystemTrayOrientation]     = XInternAtom(dpy, "_NET_SYSTEM_TRAY_ORIENTATION", False);
-  netatom[NetSystemTrayOrientationHorz] = XInternAtom(dpy, "_NET_SYSTEM_TRAY_ORIENTATION_HORZ", False);
-  netatom[NetWMName]                    = XInternAtom(dpy, "_NET_WM_NAME", False);
-  netatom[NetWMState]                   = XInternAtom(dpy, "_NET_WM_STATE", False);
-  netatom[NetWMCheck]                   = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", False);
-  netatom[NetWMFullscreen]              = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
-  netatom[NetWMWindowType]              = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
-  netatom[NetWMWindowTypeDialog]        = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
-  netatom[NetClientList]                = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
-  xatom[Manager]                        = XInternAtom(dpy, "MANAGER", False);
-  xatom[Xembed]                         = XInternAtom(dpy, "_XEMBED", False);
-  xatom[XembedInfo]                     = XInternAtom(dpy, "_XEMBED_INFO", False);
+  utf8string               = XInternAtom(dpy, "UTF8_STRING", False);
+  wmatom[WMProtocols]      = XInternAtom(dpy, "WM_PROTOCOLS", False);
+  wmatom[WMDelete]         = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
+  wmatom[WMState]          = XInternAtom(dpy, "WM_STATE", False);
+  wmatom[WMTakeFocus]      = XInternAtom(dpy, "WM_TAKE_FOCUS", False);
+  netatom[NetActiveWindow] = XInternAtom(dpy, "_NET_ACTIVE_WINDOW", False);
+  netatom[NetSupported]    = XInternAtom(dpy, "_NET_SUPPORTED", False);
+  netatom[NetSystemTray]   = XInternAtom(dpy, "_NET_SYSTEM_TRAY_S0", False);
+  netatom[NetSystemTrayOP] = XInternAtom(dpy, "_NET_SYSTEM_TRAY_OPCODE", False);
+  netatom[NetSystemTrayOrientation]
+      = XInternAtom(dpy, "_NET_SYSTEM_TRAY_ORIENTATION", False);
+  netatom[NetSystemTrayOrientationHorz]
+      = XInternAtom(dpy, "_NET_SYSTEM_TRAY_ORIENTATION_HORZ", False);
+  netatom[NetWMName]  = XInternAtom(dpy, "_NET_WM_NAME", False);
+  netatom[NetWMState] = XInternAtom(dpy, "_NET_WM_STATE", False);
+  netatom[NetWMCheck] = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", False);
+  netatom[NetWMFullscreen]
+      = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
+  netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
+  netatom[NetWMWindowTypeDialog]
+      = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
+  netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+  xatom[Manager]         = XInternAtom(dpy, "MANAGER", False);
+  xatom[Xembed]          = XInternAtom(dpy, "_XEMBED", False);
+  xatom[XembedInfo]      = XInternAtom(dpy, "_XEMBED_INFO", False);
 
   // init cursors
   cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
@@ -434,8 +439,8 @@ void scan(void) {
 
   if (XQueryTree(dpy, root, &d1, &d2, &wins, &num)) {
     for (i = 0; i < num; i++) {
-      if (!XGetWindowAttributes(dpy, wins[i], &wa)
-          || wa.override_redirect || XGetTransientForHint(dpy, wins[i], &d1))
+      if (!XGetWindowAttributes(dpy, wins[i], &wa) || wa.override_redirect
+          || XGetTransientForHint(dpy, wins[i], &d1))
         continue;
       if (wa.map_state == IsViewable || getstate(wins[i]) == IconicState)
         manage(wins[i], &wa);
@@ -457,7 +462,8 @@ void run(void) {
   XEvent ev;
   XSync(dpy, False); // all calls should be executed before continue
 
-  // blocks when is no events in queue, continues by one event, removing it from queue
+  // blocks when is no events in queue, continues by one event, removing it from
+  // queue
   while (running && !XNextEvent(dpy, &ev))
     if (handler[ev.type])
       handler[ev.type](&ev); // handle an event to its function if there is one
@@ -496,7 +502,8 @@ void cleanup(void) {
 }
 
 #ifdef XINERAMA
-int isuniquegeom(XineramaScreenInfo* unique, size_t n, XineramaScreenInfo* info) {
+int isuniquegeom(
+    XineramaScreenInfo* unique, size_t n, XineramaScreenInfo* info) {
   while (n--)
     if (unique[n].x_org == info->x_org && unique[n].y_org == info->y_org
         && unique[n].width == info->width && unique[n].height == info->height)

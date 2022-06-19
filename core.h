@@ -30,6 +30,7 @@ extern void run(void);
 extern void scan(void);
 extern void cleanup(void);
 
-extern int isuniquegeom(XineramaScreenInfo* unique, size_t n, XineramaScreenInfo* info);
+extern int isuniquegeom(
+    XineramaScreenInfo* unique, size_t n, XineramaScreenInfo* info);
 
 #endif // CORE_H_

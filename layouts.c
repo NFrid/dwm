@@ -25,16 +25,11 @@ static void bstack(Monitor* m) {
     tw = m->ww;
     ty = m->wy;
   }
-  for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-    if (i < m->nmaster) {
-      w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
-      resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0);
-      mx += WIDTH(c);
-    } else {
-      h = m->wh - mh;
-      resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw), 0);
-      if (tw != m->ww)
-        tx += WIDTH(c);
+  for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c =
+nexttiled(c->next), i++) { if (i < m->nmaster) { w = (m->ww - mx) / (MIN(n,
+m->nmaster) - i); resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 *
+c->bw), 0); mx += WIDTH(c); } else { h = m->wh - mh; resize(c, tx, ty, tw - (2 *
+c->bw), h - (2 * c->bw), 0); if (tw != m->ww) tx += WIDTH(c);
     }
   }
 }
@@ -54,7 +49,8 @@ void tile(Monitor* m) {
     mw = m->nmaster ? m->ww * m->mfact : 0;
   else
     mw = m->ww;
-  for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+  for (i = my = ty = 0, c = nexttiled(m->clients); c;
+       c = nexttiled(c->next), i++)
     if (i < m->nmaster) {
       h = (m->wh - my) / (MIN(n, m->nmaster) - i);
       resize(c, m->wx, m->wy + my, mw - (2 * c->bw), h - (2 * c->bw), 0);
@@ -62,7 +58,8 @@ void tile(Monitor* m) {
         my += HEIGHT(c);
     } else {
       h = (m->wh - ty) / (n - i);
-      resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2 * c->bw), h - (2 * c->bw), 0);
+      resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2 * c->bw),
+          h - (2 * c->bw), 0);
       if (ty + HEIGHT(c) < m->wh)
         ty += HEIGHT(c);
     }

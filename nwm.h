@@ -18,14 +18,15 @@
 
 /* --------------------------------- macros --------------------------------- */
 
-#define BUTTONMASK               (ButtonPressMask | ButtonReleaseMask)
-#define ISVISIBLE(C) ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
-#define LENGTH(X)    (sizeof X / sizeof X[0])
-#define MOUSEMASK    (BUTTONMASK | PointerMotionMask)
-#define WIDTH(X)     ((X)->w + 2 * (X)->bw + gappx)
-#define HEIGHT(X)    ((X)->h + 2 * (X)->bw + gappx)
-#define TAGMASK      ((1 << TAGS_N) - 1)
-#define TEXTW(X)     (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define BUTTONMASK (ButtonPressMask | ButtonReleaseMask)
+#define ISVISIBLE(C) \
+  ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
+#define LENGTH(X) (sizeof X / sizeof X[0])
+#define MOUSEMASK (BUTTONMASK | PointerMotionMask)
+#define WIDTH(X)  ((X)->w + 2 * (X)->bw + gappx)
+#define HEIGHT(X) ((X)->h + 2 * (X)->bw + gappx)
+#define TAGMASK   ((1 << TAGS_N) - 1)
+#define TEXTW(X)  (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 #define SYSTEM_TRAY_REQUEST_DOCK 0
 
@@ -46,17 +47,12 @@
 
 /* ---------------------------------- enums --------------------------------- */
 
-enum { CurNormal,
-  CurResize,
-  CurMove,
-  CurLast }; /* cursor */
+enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 
-enum { SchemeNorm,
-  SchemeDark,
-  SchemeInv,
-  SchemeSel }; /* color schemes */
+enum { SchemeNorm, SchemeDark, SchemeInv, SchemeSel }; /* color schemes */
 
-enum { NetSupported,
+enum {
+  NetSupported,
   NetWMName,
   NetWMState,
   NetWMCheck,
@@ -69,27 +65,29 @@ enum { NetSupported,
   NetWMWindowType,
   NetWMWindowTypeDialog,
   NetClientList,
-  NetLast }; /* EWMH atoms */
+  NetLast
+}; /* EWMH atoms */
 
-enum { Manager,
-  Xembed,
-  XembedInfo,
-  XLast }; /* Xembed atoms */
+enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
 
-enum { WMProtocols,
+enum {
+  WMProtocols,
   WMDelete,
   WMState,
   WMTakeFocus,
-  WMLast }; /* default atoms */
+  WMLast
+}; /* default atoms */
 
-enum { ClkTagBar,
+enum {
+  ClkTagBar,
   ClkTabBar,
   ClkLtSymbol,
   ClkStatusText,
   ClkWinTitle,
   ClkClientWin,
   ClkRootWin,
-  ClkLast }; /* clicks */
+  ClkLast
+}; /* clicks */
 
 /* ---------------------------------- types --------------------------------- */
 
@@ -173,7 +171,7 @@ struct Monitor {
   unsigned      ntabs;               // number of tab bars
   unsigned      tab_widths[MAXTABS]; // width of tab bars
   const Layout* lt[2];               // layouts
-  Pertag*       pertag;              // separated parameters (e.g. layout) per tag
+  Pertag*       pertag; // separated parameters (e.g. layout) per tag
 };
 
 typedef struct {

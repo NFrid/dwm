@@ -71,7 +71,8 @@ void resizeclient(Client* c, int x, int y, unsigned w, unsigned h) {
   wc.border_width = c->bw;
 
   /* Get number of clients for the client's monitor */
-  for (n = 0, nbc = nexttiled(c->mon->clients); nbc; nbc = nexttiled(nbc->next), n++)
+  for (n = 0, nbc = nexttiled(c->mon->clients); nbc;
+       nbc = nexttiled(nbc->next), n++)
     ;
 
   /* Do nothing if layout is floating */
@@ -98,7 +99,8 @@ void resizeclient(Client* c, int x, int y, unsigned w, unsigned h) {
   c->oldh         = c->h;
   c->h = wc.height = h - gapincr;
 
-  XConfigureWindow(dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
+  XConfigureWindow(
+      dpy, c->win, CWX | CWY | CWWidth | CWHeight | CWBorderWidth, &wc);
   configure(c);
   XSync(dpy, False);
 }
@@ -130,11 +132,11 @@ void setclientstate(Client* c, long state) {
 void setfocus(Client* c) {
   if (!c->neverfocus) {
     XSetInputFocus(dpy, c->win, RevertToPointerRoot, CurrentTime);
-    XChangeProperty(dpy, root, netatom[NetActiveWindow],
-        XA_WINDOW, 32, PropModeReplace,
-        (unsigned char*)&(c->win), 1);
+    XChangeProperty(dpy, root, netatom[NetActiveWindow], XA_WINDOW, 32,
+        PropModeReplace, (unsigned char*)&(c->win), 1);
   }
-  sendevent(c->win, wmatom[WMTakeFocus], NoEventMask, wmatom[WMTakeFocus], CurrentTime, 0, 0, 0);
+  sendevent(c->win, wmatom[WMTakeFocus], NoEventMask, wmatom[WMTakeFocus],
+      CurrentTime, 0, 0, 0);
 }
 
 // set client as fullscreen
@@ -183,7 +185,8 @@ void showhide(Client* c) {
   if (ISVISIBLE(c)) {
     /* show clients top down */
     XMoveWindow(dpy, c->win, c->x, c->y);
-    if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
+    if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating)
+        && !c->isfullscreen)
       resize(c, c->x, c->y, c->w, c->h, 0);
     showhide(c->snext);
   } else {
@@ -272,7 +275,8 @@ void updatesizehints(Client* c) {
 }
 
 // resize client using size hints (sticky stuff)
-Bool applysizehints(Client* c, int* x, int* y, unsigned* w, unsigned* h, Bool interact) {
+Bool applysizehints(
+    Client* c, int* x, int* y, unsigned* w, unsigned* h, Bool interact) {
   Bool     baseismin;
   Monitor* m = c->mon;
 
@@ -409,5 +413,6 @@ void applyrules(Client* c) {
     XFree(ch.res_name);
 
   // apply tagmask if can
-  c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+  c->tags
+      = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
