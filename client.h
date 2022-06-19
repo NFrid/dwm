@@ -1,5 +1,4 @@
-#ifndef CLIENT_H_
-#define CLIENT_H_
+#pragma once
 
 #include "nwm.h"
 
@@ -27,5 +26,3 @@ extern void showhide(Client* c);
 
 extern void unfocus(Client* c, int setfocus);
 extern void unmanage(Client* c, int destroyed);
-
-#endif // CLIENT_H_

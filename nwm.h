@@ -1,5 +1,4 @@
-#ifndef NWM_H_
-#define NWM_H_
+#pragma once
 
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
@@ -212,5 +211,3 @@ struct Pertag {
 struct NumTags {
   char limitexceeded[TAGS_N > 31 ? -1 : 1];
 };
-
-#endif // NWM_H_

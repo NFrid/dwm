@@ -1,5 +1,4 @@
-#ifndef UTIL_H_
-#define UTIL_H_
+#pragma once
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -22,5 +21,3 @@ unsigned int intersect(int x1, int y1, unsigned w1, unsigned h1, int x2, int y2,
     unsigned w2, unsigned h2);
 
 extern char debuginfo[36];
-
-#endif // UTIL_H_

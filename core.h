@@ -1,5 +1,4 @@
-#ifndef CORE_H_
-#define CORE_H_
+#pragma once
 
 #include "nwm.h"
 
@@ -32,5 +31,3 @@ extern void cleanup(void);
 
 extern int isuniquegeom(
     XineramaScreenInfo* unique, size_t n, XineramaScreenInfo* info);
-
-#endif // CORE_H_

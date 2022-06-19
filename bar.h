@@ -1,5 +1,4 @@
-#ifndef BAR_H_
-#define BAR_H_
+#pragma once
 
 #include "nwm.h"
 
@@ -53,5 +52,3 @@ extern Client* wintosystrayicon(Window win);
 
 // remove system tray icon
 extern void removesystrayicon(Client* icon);
-
-#endif // BAR_H_

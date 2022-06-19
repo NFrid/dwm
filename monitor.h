@@ -1,5 +1,4 @@
-#ifndef MONITOR_H_
-#define MONITOR_H_
+#pragma once
 
 #include "nwm.h"
 
@@ -12,5 +11,3 @@ extern void     manage(Window w, XWindowAttributes* wa);
 extern Monitor* recttomon(int x, int y, int w, int h);
 extern void     cleanupmon(Monitor* mon);
 extern void     restack(Monitor* m);
-
-#endif // MONITOR_H_

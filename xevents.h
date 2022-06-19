@@ -1,5 +1,4 @@
-#ifndef XEVENTS_H_
-#define XEVENTS_H_
+#pragma once
 
 #include "nwm.h"
 
@@ -20,5 +19,3 @@ extern void resizerequest(XEvent* e);
 extern void unmapnotify(XEvent* e);
 extern int  sendevent(
      Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
-
-#endif // XEVENTS_H_

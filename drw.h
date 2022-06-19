@@ -1,5 +1,4 @@
-#ifndef DRW_H_
-#define DRW_H_
+#pragma once
 
 #include <X11/XKBlib.h>
 #include <X11/Xatom.h>
@@ -79,5 +78,3 @@ int  drw_text(Drw* drw, int x, int y, unsigned int w, unsigned int h,
 
 void drw_map(
     Drw* drw, Window win, int x, int y, unsigned int w, unsigned int h);
-
-#endif // DRW_H_

@@ -1,5 +1,4 @@
-#ifndef ACTIONS_H_
-#define ACTIONS_H_
+#pragma once
 
 #include "nwm.h"
 
@@ -30,5 +29,3 @@ extern void killclient(const Arg* arg);
 extern void focuswin(const Arg* arg);
 extern void focusmon(const Arg* arg);
 extern void focusstack(const Arg* arg);
-
-#endif // ACTIONS_H_

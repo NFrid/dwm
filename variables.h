@@ -1,5 +1,4 @@
-#ifndef VARIABLES_H_
-#define VARIABLES_H_
+#pragma once
 
 #include "drw.h"
 #include "nwm.h"
@@ -28,5 +27,3 @@ extern Window   root;             // root window
 extern Window   wmcheckwin;       // window for NetWMCheck
 
 extern void (*handler[LASTEvent])(XEvent*);
-
-#endif // VARIABLES_H_
