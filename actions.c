@@ -143,6 +143,7 @@ void tagmon(const Arg* arg) {
   Client*  c = selmon->sel;
   selmon     = m;
   sendmon(c, m);
+  ignorenotify = True;
 }
 
 // toggle floating state for selected client

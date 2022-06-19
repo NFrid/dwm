@@ -267,6 +267,11 @@ void enternotify(XEvent* e) {
   Monitor*        m;
   XCrossingEvent* ev = &e->xcrossing;
 
+  if (ignorenotify) {
+    ignorenotify = False;
+    return;
+  }
+
   if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior)
       && ev->window != root)
     return;

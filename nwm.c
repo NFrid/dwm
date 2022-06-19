@@ -38,6 +38,7 @@ Monitor* mons;
 Monitor* selmon;
 Window   root;
 Window   wmcheckwin;
+Bool     ignorenotify = False;
 
 char debuginfo[36];
 

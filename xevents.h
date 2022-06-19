@@ -2,6 +2,8 @@
 
 #include "nwm.h"
 
+extern Bool ignorenotify;
+
 extern void configurenotify(XEvent* e);
 extern void destroynotify(XEvent* e);
 extern void configurerequest(XEvent* e);
