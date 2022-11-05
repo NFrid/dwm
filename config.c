@@ -71,6 +71,7 @@ const Rule rules[] = {
   { "VK",                 NULL,     NULL,   1 << 2,     0,          1 },
   { "Element",            NULL,     NULL,   1 << 2,     0,          1 },
   { "Slack",              NULL,     NULL,   1 << 2,     0,          1 },
+  { "Mattermost",         NULL,     NULL,   1 << 2,     0,          1 },
 
   { "zoom",               NULL,     NULL,   1 << 4,     0,          1 },
 
