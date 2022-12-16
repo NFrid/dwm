@@ -54,8 +54,8 @@ const char* tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 const PertagRule pertagrules[] = {
   // clang-format off
 //* tag, layout, mfact
-  { 2,   1,      -1 },
-  { 4,   0,      .5 },
+  { 0,   1,      -1 },
+  { 2,   1,      .5 },
   { 6,   1,      -1 },
   // clang-format on
 };
@@ -64,27 +64,28 @@ const size_t pertagrules_len = LENGTH(pertagrules);
 const Rule rules[] = {
   // clang-format off
 //* class                 instance  title   tags mask   isfloating  monitor
-  { "Alacritty",          NULL,     "sys:", 1,          0,          1 },
+  { "discord",            NULL,     NULL,    1 << 2,     0,          1 },
+  { "TelegramDesktop",    NULL,     NULL,    1 << 2,     0,          1 },
+  { "VK",                 NULL,     NULL,    1 << 2,     0,          1 },
+  { "Element",            NULL,     NULL,    1 << 2,     0,          1 },
+  { "Slack",              NULL,     NULL,    1 << 2,     0,          1 },
+  { "Mattermost",         NULL,     NULL,    1 << 2,     0,          1 },
 
-  { "discord",            NULL,     NULL,   1 << 2,     0,          1 },
-  { "TelegramDesktop",    NULL,     NULL,   1 << 2,     0,          1 },
-  { "VK",                 NULL,     NULL,   1 << 2,     0,          1 },
-  { "Element",            NULL,     NULL,   1 << 2,     0,          1 },
-  { "Slack",              NULL,     NULL,   1 << 2,     0,          1 },
-  { "Mattermost",         NULL,     NULL,   1 << 2,     0,          1 },
+  { "zoom",               NULL,     NULL,    1 << 4,     0,          1 },
 
-  { "zoom",               NULL,     NULL,   1 << 4,     0,          1 },
+  { "code-oss",           NULL,     NULL,    1 << 6,     0,          0 },
+  { "jetbrains-",         NULL,     NULL,    1 << 6,     0,          0 },
 
-  { "code-oss",           NULL,     NULL,   1 << 6,     0,          0 },
-  { "jetbrains-",         NULL,     NULL,   1 << 6,     0,          0 },
+  { "sxiv",               NULL,     NULL,    0,          0,         -1 },
+  { "Zathura",            NULL,     NULL,    0,          0,         -1 },
 
-  { "sxiv",               NULL,     NULL,   0,          0,         -1 },
-  { "Zathura",            NULL,     NULL,   0,          0,         -1 },
+  { "Crow Translate",     NULL,     NULL,    0,          1,         -1 },
+  { "copyq",              NULL,     NULL,    0,          1,         -1 },
 
-  { "Crow Translate",     NULL,     NULL,   0,          1,         -1 },
-  { "copyq",              NULL,     NULL,   0,          1,         -1 },
+  { "obs",                NULL,     NULL,    1 << 8,     0,          1 },
 
-  { "obs",                NULL,     NULL,   1 << 8,     0,          1 },
+  { "OpenUtau",           NULL,     "Open",  0,          0,          1 },
+  { "OpenUtau",           NULL,     "Piano Roll", 0,     0,         -1 },
   // clang-format on
 };
 const size_t rules_len = LENGTH(rules);
