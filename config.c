@@ -27,7 +27,7 @@ const unsigned int barspacing      = 0;
 const unsigned int barspacing_font = 1;
 
 const char* fonts[]
-    = { "Iosevka nf:size=12", "Noto Color Emoji", "Source Han Sans JP" };
+    = { "Iosevka nfrid:size=12", "Noto Color Emoji", "Source Han Sans JP" };
 const char  col_white[] = "#f8f8f2";
 const char  col_gray1[] = "#282a36";
 const char  col_gray2[] = "#44475a";
