@@ -119,6 +119,15 @@ void manage(Window w, XWindowAttributes* wa) {
 
   c      = ecalloc(1, sizeof(Client));
   c->win = w;
+
+  if (getatomprop(c, netatom[NetWMWindowType])
+      == netatom[NetWMWindowTypeDesktop]) {
+    XMapWindow(dpy, c->win);
+    XLowerWindow(dpy, c->win);
+    free(c);
+    return;
+  }
+
   /* geometry */
   c->x = c->oldx = wa->x;
   c->y = c->oldy = wa->y;

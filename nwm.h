@@ -64,7 +64,8 @@ enum {
   NetWMWindowType,
   NetWMWindowTypeDialog,
   NetClientList,
-  NetLast
+  NetWMWindowTypeDesktop,
+  NetLast,
 }; /* EWMH atoms */
 
 enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
