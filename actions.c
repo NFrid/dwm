@@ -379,17 +379,19 @@ void movemouse(const Arg* arg) {
 
       nx = ocx + (ev.xmotion.x - x);
       ny = ocy + (ev.xmotion.y - y);
-      if (abs(selmon->wx - nx) < snap)
-        nx = selmon->wx;
-      else if ((selmon->wx + selmon->ww) - (nx + WIDTH(c)) < snap)
-        nx = selmon->wx + selmon->ww - WIDTH(c);
-      if (abs(selmon->wy - ny) < snap)
-        ny = selmon->wy;
-      else if ((selmon->wy + selmon->wh) - (ny + HEIGHT(c)) < snap)
-        ny = selmon->wy + selmon->wh - HEIGHT(c);
-      if (!c->isfloating && selmon->lt[selmon->sellt]->arrange
-          && (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
-        togglefloating(NULL);
+      if (!c->nosnap) {
+        if (abs(selmon->wx - nx) < snap)
+          nx = selmon->wx;
+        else if ((selmon->wx + selmon->ww) - (nx + WIDTH(c)) < snap)
+          nx = selmon->wx + selmon->ww - WIDTH(c);
+        if (abs(selmon->wy - ny) < snap)
+          ny = selmon->wy;
+        else if ((selmon->wy + selmon->wh) - (ny + HEIGHT(c)) < snap)
+          ny = selmon->wy + selmon->wh - HEIGHT(c);
+        if (!c->isfloating && selmon->lt[selmon->sellt]->arrange
+            && (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
+          togglefloating(NULL);
+      }
       if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
         resize(c, nx, ny, c->w, c->h, 1);
       break;
@@ -525,6 +527,26 @@ void killclient(const Arg* arg) {
     XSync(dpy, False);
     XSetErrorHandler(xerror);
     XUngrabServer(dpy);
+  }
+}
+
+void togglecentering(const Arg* arg) {
+  if (arg->i > 0) {
+    selmon->sel->nocenter = 0;
+  } else if (arg->i < 0) {
+    selmon->sel->nocenter = 1;
+  } else {
+    selmon->sel->nocenter = !selmon->sel->nocenter;
+  }
+}
+
+void togglesnapping(const Arg* arg) {
+  if (arg->i > 0) {
+    selmon->sel->nosnap = 0;
+  } else if (arg->i < 0) {
+    selmon->sel->nosnap = 1;
+  } else {
+    selmon->sel->nosnap = !selmon->sel->nosnap;
   }
 }
 

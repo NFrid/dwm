@@ -73,10 +73,13 @@ void configurerequest(XEvent* e) {
         c->oldh = c->h;
         c->h    = ev->height;
       }
-      if ((c->x + c->w) > m->mx + m->mw && c->isfloating)
-        c->x = m->mx + (m->mw / 2 - WIDTH(c) / 2); /* center in x direction */
-      if ((c->y + c->h) > m->my + m->mh && c->isfloating)
-        c->y = m->my + (m->mh / 2 - HEIGHT(c) / 2); /* center in y direction */
+      if (!c->nocenter) {
+        if ((c->x + c->w) > m->mx + m->mw && c->isfloating)
+          c->x = m->mx + (m->mw / 2 - WIDTH(c) / 2); /* center in x direction */
+        if ((c->y + c->h) > m->my + m->mh && c->isfloating)
+          c->y
+              = m->my + (m->mh / 2 - HEIGHT(c) / 2); /* center in y direction */
+      }
       if ((ev->value_mask & (CWX | CWY))
           && !(ev->value_mask & (CWWidth | CWHeight)))
         configure(c);
@@ -275,8 +278,15 @@ void enternotify(XEvent* e) {
   if ((ev->mode != NotifyNormal || ev->detail == NotifyInferior)
       && ev->window != root)
     return;
+
   c = wintoclient(ev->window);
+
+  // to prevent shitty wine apps' popups from refocusing back to main window
+  // if (selmon->sel && selmon->sel->isfloating && c->isfloating)
+  //   return;
+
   m = c ? c->mon : wintomon(ev->window);
+
   if (m != selmon) {
     unfocus(selmon->sel, 1);
     selmon = m;

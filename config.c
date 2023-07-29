@@ -63,30 +63,31 @@ const size_t pertagrules_len = LENGTH(pertagrules);
 
 const Rule rules[] = {
   // clang-format off
-//* class                 instance  title   tags mask   isfloating  monitor
-  { "discord",            NULL,     NULL,    1 << 2,     0,          1 },
-  { "TelegramDesktop",    NULL,     NULL,    1 << 2,     0,          1 },
-  { "VK",                 NULL,     NULL,    1 << 2,     0,          1 },
-  { "Element",            NULL,     NULL,    1 << 2,     0,          1 },
-  { "Slack",              NULL,     NULL,    1 << 2,     0,          1 },
-  { "Mattermost",         NULL,     NULL,    1 << 2,     0,          1 },
-  { "thunderbird",        NULL,     NULL,    1 << 2,     0,          1 },
+//* class                 instance  title    tags mask   isfloating  nosnap  nocenter  monitor
+  { "discord",            NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
+  { "TelegramDesktop",    NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
+  { "VK",                 NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
+  { "Element",            NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
+  { "Slack",              NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
+  { "Mattermost",         NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
+  { "thunderbird",        NULL,     NULL,    1 << 2,     0,          0,      0,        1 },
 
-  { "zoom",               NULL,     NULL,    1 << 4,     0,          1 },
+  { "zoom",               NULL,     NULL,    1 << 4,     0,          0,      0,        1 },
 
-  { "code-oss",           NULL,     NULL,    1 << 6,     0,          0 },
-  { "jetbrains-",         NULL,     NULL,    1 << 6,     0,          0 },
+  { "code-oss",           NULL,     NULL,    1 << 6,     0,          0,      0,        0 },
+  { "jetbrains-",         NULL,     NULL,    1 << 6,     0,          0,      0,        0 },
 
-  { "sxiv",               NULL,     NULL,    0,          0,         -1 },
-  { "Zathura",            NULL,     NULL,    0,          0,         -1 },
+  { "sxiv",               NULL,     NULL,    0,          0,          0,      0,        -1 },
+  { "Zathura",            NULL,     NULL,    0,          0,          0,      0,        -1 },
 
-  { "Crow Translate",     NULL,     NULL,    0,          1,         -1 },
-  { "copyq",              NULL,     NULL,    0,          1,         -1 },
+  { "Crow Translate",     NULL,     NULL,    0,          1,          0,      0,        -1 },
+  { "copyq",              NULL,     NULL,    0,          1,          0,      0,        -1 },
+  { "Peek",               NULL,     NULL,    0,          1,          1,      1,        -1 },
 
-  { "obs",                NULL,     NULL,    1 << 8,     0,          1 },
+  { "obs",                NULL,     NULL,    1 << 8,     0,          0,      0,        1 },
 
-  { "OpenUtau",           NULL,     "Open",  0,          0,          1 },
-  { "OpenUtau",           NULL,     "Piano Roll", 0,     0,         -1 },
+  { "OpenUtau",           NULL,     "Open",  0,          0,          0,      0,        1 },
+  { "OpenUtau",           NULL,     "-",     0,          0,          0,      0,        0 },
   // clang-format on
 };
 const size_t rules_len = LENGTH(rules);
@@ -137,6 +138,9 @@ Key keys[] = {
 
   { MODKEY, XK_v,                       cyclelayout, { .i = +1 } },
   /* { MODKEY | ShiftMask, XK_backslash,   cyclelayout, { .i = -1 } }, */
+
+  { MODKEY, XK_Tab,                     togglecentering, { 0 } },
+  { MODKEY | ShiftMask, XK_Tab,         togglesnapping, { 0 } },
 
   { MODKEY | ShiftMask, XK_t,           setlayout, { 0 } },
   { MODKEY, XK_w,                       togglefloating, { 0 } },

@@ -399,6 +399,7 @@ void applyrules(Client* c) {
         && (!r->class || strstr(class, r->class))
         && (!r->instance || strstr(instance, r->instance))) {
       c->isfloating = r->isfloating;
+      c->nosnap     = r->nosnap;
       c->tags |= r->tags;
       for (m = mons; m && m->num != r->monitor; m = m->next)
         ;

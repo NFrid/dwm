@@ -111,21 +111,25 @@ typedef struct {
 typedef struct Monitor Monitor;
 typedef struct Client  Client;
 struct Client {
-  char     name[256];                          // client's name
-  float    mina, maxa;                         // aspect ratio
-  int      x, y, oldx, oldy;                   // client coordinates
-  unsigned w, h, oldw, oldh;                   // client dimension
-  unsigned basew, baseh, incw, inch;           // base/incremental dimension
-  unsigned maxw, maxh, minw, minh;             // dimension limit
-  unsigned bw, oldbw;                          // border width
-  unsigned tags;                               // assigned tags
-  Bool     isfixed, isfloating, isurgent;      // client state
-  Bool     neverfocus, oldstate, isfullscreen; // client state
-  Bool     issticky;                           // client state
-  Client*  next;                               // next client link
-  Client*  snext;                              // next stack
-  Monitor* mon;                                // assigned monitor
-  Window   win;                                // client's window
+  char     name[256];                // client's name
+  float    mina, maxa;               // aspect ratio
+  int      x, y, oldx, oldy;         // client coordinates
+  unsigned w, h, oldw, oldh;         // client dimension
+  unsigned basew, baseh, incw, inch; // base/incremental dimension
+  unsigned maxw, maxh, minw, minh;   // dimension limit
+  unsigned bw, oldbw;                // border width
+  unsigned tags;                     // assigned tags
+
+  Bool isfixed, isfloating, isurgent;      // client state
+  Bool neverfocus, oldstate, isfullscreen; // client state
+  Bool issticky;                           // client state
+
+  Bool nocenter, nosnap; // client config
+
+  Client*  next;  // next client link
+  Client*  snext; // next stack
+  Monitor* mon;   // assigned monitor
+  Window   win;   // client's window
 };
 
 typedef struct {
@@ -180,6 +184,8 @@ typedef struct {
   const char* title;
   unsigned    tags;
   int         isfloating;
+  int         nosnap;
+  int         nocenter;
   int         monitor;
 } Rule;
 

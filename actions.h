@@ -26,6 +26,8 @@ extern void setmfact(const Arg* arg);
 extern void shiftviewclients(const Arg* arg);
 extern void incnmaster(const Arg* arg);
 extern void killclient(const Arg* arg);
+extern void togglecentering(const Arg* arg);
+extern void togglesnapping(const Arg* arg);
 extern void focuswin(const Arg* arg);
 extern void focusmon(const Arg* arg);
 extern void focusstack(const Arg* arg);
