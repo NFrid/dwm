@@ -476,6 +476,41 @@ void setmfact(const Arg* arg) {
   arrange(selmon);
 }
 
+Arg getshifted(const Arg* arg) {
+  Arg shifted;
+
+  shifted.ui = selmon->tagset[selmon->seltags];
+
+  if (arg->i > 0) { // left circular shift
+    // use only the most left tag
+    if (n_ones(shifted.ui) > 1)
+      shifted.ui = 1 << (31 - __builtin_clz(shifted.ui));
+
+    shifted.ui = (shifted.ui << arg->i) | (shifted.ui >> (TAGS_N - arg->i));
+  } else { // right circular shift
+    // use only the most right tag
+    if (n_ones(shifted.ui) > 1)
+      shifted.ui = 1 << __builtin_ctz(shifted.ui);
+
+    shifted.ui = (shifted.ui >> (-arg->i) | shifted.ui << (TAGS_N + arg->i));
+  }
+
+  return shifted;
+}
+
+// shift tagmask to next/prev tag
+void shiftview(const Arg* arg) {
+  Arg shifted = getshifted(arg);
+  view(&shifted);
+}
+
+// shift tagmask to next/prev tag while tagging the selected client to it
+void shifttag(const Arg* arg) {
+  Arg shifted = getshifted(arg);
+  tag(&shifted);
+  view(&shifted);
+}
+
 // shift tagmask to next/prev tag from the edgest active (arg.i > 0 is next)
 void shiftviewclients(const Arg* arg) {
   Arg          shifted;

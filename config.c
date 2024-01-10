@@ -80,7 +80,7 @@ const Rule rules[] = {
   { "sxiv",               NULL,     NULL,    0,          0,          0,      0,        -1 },
   { "Zathura",            NULL,     NULL,    0,          0,          0,      0,        -1 },
 
-  { "Crow Translate",     NULL,     NULL,    0,          1,          0,      0,        -1 },
+  { "crow",               NULL,     NULL,    0,          1,          0,      0,        -1 },
   { "copyq",              NULL,     NULL,    0,          1,          0,      0,        -1 },
   { "Peek",               NULL,     NULL,    0,          1,          1,      1,        -1 },
 
@@ -114,17 +114,22 @@ Key keys[] = {
   { MODKEY, XK_backslash,               togglebar, { 0 } },
   { MODKEY | ShiftMask, XK_w,           tabmode,   { -1 } },
 
-  { MODKEY, XK_j,                       focusstack, { .i = +1 } },
-  { MODKEY, XK_k,                       focusstack, { .i = -1 } },
+  { MODKEY, XK_j,                       focusstack,       { .i = +1 } },
+  { MODKEY, XK_k,                       focusstack,       { .i = -1 } },
   { MODKEY, XK_l,                       shiftviewclients, { .i = +1 } },
   { MODKEY, XK_h,                       shiftviewclients, { .i = -1 } },
+  { MODKEY | Mod1Mask, XK_l,            shiftview,        { .i = +1 } },
+  { MODKEY | Mod1Mask, XK_h,            shiftview,        { .i = -1 } },
 
   { MODKEY, XK_i,                       incnmaster, { .i = +1 } },
   { MODKEY | ShiftMask, XK_i,           incnmaster, { .i = -1 } },
-  { MODKEY | ShiftMask, XK_h,           setmfact, { .f = -0.05 } },
-  { MODKEY | ShiftMask, XK_l,           setmfact, { .f = +0.05 } },
+  { MODKEY | ControlMask, XK_h,         setmfact, { .f = -0.05 } },
+  { MODKEY | ControlMask, XK_l,         setmfact, { .f = +0.05 } },
+
   { MODKEY | ShiftMask, XK_j,           movestack, { .i = +1 } },
   { MODKEY | ShiftMask, XK_k,           movestack, { .i = -1 } },
+  { MODKEY | ShiftMask, XK_l,           shifttag,  { .i = +1 } },
+  { MODKEY | ShiftMask, XK_h,           shifttag,  { .i = -1 } },
 
   { MODKEY, XK_x,                       zoom, { 0 } },
   { MODKEY, XK_o,                       view, { 0 } },
