@@ -10,9 +10,9 @@
  * Nick Friday <nfriday@ya.ru> 🗿
  */
 
-#include "nwm.h"
 #include "core.h"
 #include "drw.h"
+#include "nwm.h"
 #include "util.h"
 #include "variables.h"
 
@@ -29,6 +29,7 @@ int (*xerrorxlib)(Display*, XErrorEvent*);
 Atom     wmatom[WMLast];
 Atom     netatom[NetLast];
 Atom     xatom[XLast];
+Atom     motifatom;
 Bool     running = 1;
 Cur*     cursor[CurLast];
 Clr**    scheme;

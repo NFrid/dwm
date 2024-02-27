@@ -12,6 +12,7 @@ extern void resize(
 extern void resizeclient(Client* c, int x, int y, unsigned w, unsigned h);
 
 extern void updatesizehints(Client* c);
+extern void updatemotifhints(Client* c);
 extern void updatetitle(Client* c);
 extern void updatewindowtype(Client* c);
 extern void updatewmhints(Client* c);

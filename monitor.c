@@ -1,8 +1,8 @@
-#include "monitor.h"
 #include "bar.h"
 #include "client.h"
 #include "config.h"
 #include "core.h"
+#include "monitor.h"
 #include "stack.h"
 #include "util.h"
 #include "variables.h"
@@ -164,6 +164,7 @@ void manage(Window w, XWindowAttributes* wa) {
   updatewindowtype(c);
   updatesizehints(c);
   updatewmhints(c);
+  updatemotifhints(c);
   c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
   c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
   XSelectInput(dpy, w,

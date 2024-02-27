@@ -1,4 +1,3 @@
-#include "xevents.h"
 #include "bar.h"
 #include "client.h"
 #include "config.h"
@@ -6,6 +5,7 @@
 #include "monitor.h"
 #include "util.h"
 #include "variables.h"
+#include "xevents.h"
 
 // ConfigureNotify event handler
 void configurenotify(XEvent* e) {

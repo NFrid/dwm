@@ -1,8 +1,8 @@
-#include "core.h"
 #include "actions.h"
 #include "bar.h"
 #include "client.h"
 #include "config.h"
+#include "core.h"
 #include "monitor.h"
 #include "stack.h"
 #include "util.h"
@@ -172,6 +172,8 @@ void propertynotify(XEvent* e) {
     }
     if (ev->atom == netatom[NetWMWindowType])
       updatewindowtype(c);
+    if (ev->atom == motifatom)
+      updatemotifhints(c);
   }
 }
 
@@ -388,6 +390,7 @@ void setup(void) {
   netatom[NetWMWindowTypeDesktop]
       = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DESKTOP", False);
   netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+  motifatom              = XInternAtom(dpy, "_MOTIF_WM_HINTS", False);
   xatom[Manager]         = XInternAtom(dpy, "MANAGER", False);
   xatom[Xembed]          = XInternAtom(dpy, "_XEMBED", False);
   xatom[XembedInfo]      = XInternAtom(dpy, "_XEMBED_INFO", False);

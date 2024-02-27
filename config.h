@@ -62,6 +62,7 @@ extern const size_t     rules_len; // length of rules[]
 extern const float mfact;       // factor of master area size [0.05..0.95]
 extern const int   nmaster;     // number of clients in master area
 extern const int   resizehints; // 1 means respect size hints in tiled resizals
+extern const int   decorhints;  // 1 means respect decoration hints
 
 extern const Layout layouts[];   // stack layouts
 extern const size_t layouts_len; // length of layouts[]

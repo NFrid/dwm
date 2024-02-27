@@ -15,6 +15,7 @@ extern int (*xerrorxlib)(Display*, XErrorEvent*);
 
 extern Atom     wmatom[WMLast];   // wm-specific atoms
 extern Atom     netatom[NetLast]; // _NET atoms
+extern Atom     motifatom;        // _MOTIF atom
 extern Atom     xatom[XLast];     // x-specific atoms
 extern Bool     running;          // 0 means nwm stops
 extern Cur*     cursor[CurLast];  // used cursors

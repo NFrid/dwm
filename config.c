@@ -1,7 +1,7 @@
 // See LICENSE file for copyright and license details.
 
-#include "config.h"
 #include "actions.h"
+#include "config.h"
 #include "layouts.h"
 #include "nwm.h"
 #include <X11/keysym.h>
@@ -94,7 +94,8 @@ const size_t rules_len = LENGTH(rules);
 
 const float mfact       = 0.55;
 const int   nmaster     = 1;
-const int   resizehints = 1;
+const int   resizehints = 0;
+const int   decorhints  = 1;
 
 const Layout layouts[] = {
   // clang-format off
