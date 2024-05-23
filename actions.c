@@ -173,14 +173,19 @@ void togglefullscr(const Arg* arg) {
     setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
-// focus urgent item and its tag
-void focusurgent(const Arg* arg) {
+Client* geturgent(void) {
   Monitor* m;
   Client*  c = NULL;
-  int      i;
-  for (m = selmon; m; m = m->next)
+  for (m = selmon; m && !(c && c->isurgent); m = m->next)
     for (c = m->clients; c && !c->isurgent; c = c->next)
       ;
+  return c;
+}
+
+// focus urgent item and its tag
+void focusurgent(const Arg* arg) {
+  Client* c = geturgent();
+  int     i;
   if (c) {
     for (i = 0; i < TAGS_N && !((1 << i) & c->tags); i++)
       ;
@@ -195,11 +200,7 @@ void focusurgent(const Arg* arg) {
 
 // take urgent item to focused stack
 void takeurgent(const Arg* arg) {
-  Monitor* m;
-  Client*  c = NULL;
-  for (m = selmon; m; m = m->next)
-    for (c = m->clients; c && !c->isurgent; c = c->next)
-      ;
+  Client* c = geturgent();
   if (c) {
     if (c->mon == selmon) {
       c->tags = selmon->sel->tags;
